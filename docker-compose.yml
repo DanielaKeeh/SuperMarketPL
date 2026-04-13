@@ -1,0 +1,22 @@
+services:
+
+  prolog:
+    build: .
+    container_name: minisuper-prolog
+    expose:
+      - "8080"
+    volumes:
+      - ./minisuper_server.pl:/app/minisuper_server.pl
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: minisuper-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./public:/usr/share/nginx/html:ro
+    depends_on:
+      - prolog
+    restart: unless-stopped

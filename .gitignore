@@ -1,0 +1,9 @@
+# Docker
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
