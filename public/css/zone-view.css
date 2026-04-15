@@ -142,3 +142,91 @@
     display: none;
   }
 }
+
+/* ── Info Card (Oficina) ── */
+.info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--warm-white);
+  border: 1.5px solid var(--green-light);
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 24px var(--shadow);
+}
+.info-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--green-dark);
+  color: var(--green-bright);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.info-nombre {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+.info-cargo {
+  font-size: .75rem;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+.info-correo {
+  font-size: .78rem;
+  color: var(--green-mid);
+  text-decoration: none;
+  margin-top: 4px;
+  display: inline-block;
+}
+.info-correo:hover { text-decoration: underline; }
+
+.info-horario-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--amber-light);
+  border: 1px solid var(--amber);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: .75rem;
+  color: #5a2e00;
+  margin-bottom: 24px;
+}
+.info-horario-badge::before { content: '🕘'; }
+
+.info-servicios {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.servicio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--warm-white);
+  border: 1.5px solid var(--green-light);
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: box-shadow .15s;
+}
+.servicio-card:hover { box-shadow: 0 4px 16px var(--shadow); }
+.servicio-card-icon { font-size: 1.4rem; flex-shrink: 0; }
+.servicio-card-nombre {
+  font-family: 'Syne', sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.servicio-card-desc {
+  font-size: .72rem;
+  color: var(--text-light);
+  margin-top: 3px;
+}
