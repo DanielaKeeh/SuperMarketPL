@@ -7,6 +7,25 @@ const zoneViewSub   = document.getElementById('zoneViewSub');
 const zoneViewLoc   = document.getElementById('zoneViewLocation');
 const productosBody = document.getElementById('productosBody');
 const emptyState    = document.getElementById('emptyState');
+const infoCard      = document.getElementById('infoCard');
+const productosTable= document.getElementById('productosTable');
+
+/* ── Zonas especiales (no productos) ── */
+const zonasEspeciales = {
+  oficina: {
+    tipo: 'info',
+    encargado: 'Karol Daniela Maldonado Lopez',
+    correo: 'daniela_keeeh@outlook.com',
+    horario: '9:00 AM – 3:00 PM · Lunes a Viernes',
+    servicios: [
+      { icon: '🧾', nombre: 'Facturación electrónica', desc: 'Emisión de CFDI en menos de 5 minutos' },
+      { icon: '↩️', nombre: 'Devoluciones',            desc: 'Cambios y devoluciones con ticket de compra' },
+      { icon: '📋', nombre: 'Atención a clientes',     desc: 'Quejas, sugerencias y aclaraciones' },
+      { icon: '💼', nombre: 'Proveedores',              desc: 'Recepción de propuestas y cotizaciones' },
+      { icon: '🎁', nombre: 'Programa de lealtad',      desc: 'Alta y consulta de puntos FrescaVida' },
+    ]
+  }
+};
 
 async function openZoneView(el) {
   if (!el?.dataset.zone) return;
@@ -22,7 +41,37 @@ async function openZoneView(el) {
   zoneViewSub.textContent = sub;
   zoneViewLoc.innerHTML   = '📍 ' + (lugar || 'Consulta en tienda');
 
-  // Mostrar loading
+  // Abrir vista
+  zoneView.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // ── Zona especial (oficina, etc) ──
+  const especial = zonasEspeciales[el.dataset.zone];
+  if (especial?.tipo === 'info') {
+    productosTable.style.display = 'none';
+    emptyState.style.display     = 'none';
+    infoCard.style.display       = 'block';
+
+    document.getElementById('infoEncargado').textContent = especial.encargado;
+    document.getElementById('infoCorreo').textContent    = especial.correo;
+    document.getElementById('infoCorreo').href           = 'mailto:' + especial.correo;
+    document.getElementById('infoHorario').textContent   = especial.horario;
+    document.getElementById('infoServicios').innerHTML   = especial.servicios.map(s => `
+      <div class="servicio-card">
+        <span class="servicio-card-icon">${s.icon}</span>
+        <div>
+          <div class="servicio-card-nombre">${s.nombre}</div>
+          <div class="servicio-card-desc">${s.desc}</div>
+        </div>
+      </div>
+    `).join('');
+    return;
+  }
+
+  // ── Zona normal (productos) ──
+  productosTable.style.display = '';
+  infoCard.style.display       = 'none';
+
   productosBody.innerHTML = `
     <tr>
       <td colspan="5" style="text-align:center;opacity:.5;padding:24px">
@@ -31,11 +80,6 @@ async function openZoneView(el) {
     </tr>`;
   emptyState.style.display = 'none';
 
-  // Abrir vista
-  zoneView.classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  // Obtener productos
   let productos = [];
 
   if (cat) {
@@ -57,7 +101,6 @@ async function openZoneView(el) {
     }
   }
 
-  // Renderizar tabla
   if (productos.length) {
     productosBody.innerHTML = productos.map(p => `
       <tr>
@@ -81,10 +124,8 @@ function closeZoneView() {
   document.querySelectorAll('.zone.highlight').forEach(z => z.classList.remove('highlight'));
 }
 
-// Eventos
 document.getElementById('zoneViewBack').addEventListener('click', closeZoneView);
 
-// Cerrar con Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && zoneView.classList.contains('open')) closeZoneView();
 });
