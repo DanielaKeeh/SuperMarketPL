@@ -1,0 +1,279 @@
+/* ============================================================
+   OFFICE VIEW — Vista de oficina y administración
+============================================================ */
+
+/* ── Hero del encargado ──────────────────────────────────── */
+.office-hero {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-8);
+  align-items: start;
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+.office-hero-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-xl);
+  background: var(--primary);
+  color: var(--secondary-container);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-headline-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Info del encargado */
+.office-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.office-hero-role {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  background: var(--secondary-container);
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-label-md);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.office-hero-name {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-lg);
+  font-weight: var(--weight-bold);
+  color: var(--on-surface);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+.office-hero-bio {
+  font-size: var(--text-body-lg);
+  color: var(--on-surface-variant);
+  line-height: var(--leading-relaxed);
+  max-width: 560px;
+}
+
+.office-hero-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.office-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface-container);
+  border-radius: var(--radius-full);
+  font-size: var(--text-body-md);
+  color: var(--on-surface);
+  text-decoration: none;
+  width: fit-content;
+  transition: background var(--transition-fast);
+}
+
+.office-contact-item:hover { background: var(--surface-variant); }
+
+.office-contact-icon { font-size: 0.9rem; }
+
+/* Status card */
+.office-hero-status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 180px;
+}
+
+.office-status-card {
+  background: var(--surface-container);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.office-status-label {
+  font-size: var(--text-label-sm);
+  color: var(--on-surface-variant);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.office-status-value {
+  font-family: var(--font-display);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--on-surface);
+}
+
+.office-status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--secondary);
+}
+
+.office-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--secondary);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ── Sección de servicios ────────────────────────────────── */
+.office-services-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.office-services-title {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-md);
+  font-weight: var(--weight-bold);
+  color: var(--on-surface);
+  letter-spacing: var(--tracking-tight);
+}
+
+.office-services-desc {
+  font-size: var(--text-body-lg);
+  color: var(--on-surface-variant);
+}
+
+/* Grid de servicios */
+.office-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+/* ── Banner de excelencia operacional ────────────────────── */
+.office-banner {
+  background: var(--primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-10);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  overflow: hidden;
+  position: relative;
+}
+
+.office-banner::before {
+  content: 'BOTANICAL';
+  position: absolute;
+  right: var(--space-8);
+  bottom: -20px;
+  font-family: var(--font-display);
+  font-size: 6rem;
+  font-weight: var(--weight-bold);
+  color: rgba(255,255,255,0.04);
+  letter-spacing: var(--tracking-tight);
+  pointer-events: none;
+  user-select: none;
+}
+
+.office-banner-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  z-index: 1;
+}
+
+.office-banner-title {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-md);
+  font-weight: var(--weight-bold);
+  color: var(--on-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.office-banner-desc {
+  font-size: var(--text-body-lg);
+  color: rgba(255,255,255,0.7);
+  max-width: 480px;
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Horario badge ───────────────────────────────────────── */
+.office-horario {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: #fef3cd;
+  color: #7d5a00;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-medium);
+  width: fit-content;
+  margin-bottom: var(--space-6);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .office-hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .office-hero-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: var(--text-title-lg);
+  }
+
+  .office-hero-status {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .office-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .office-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .office-hero {
+    padding: var(--space-5);
+  }
+
+  .office-services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .office-banner {
+    padding: var(--space-6);
+  }
+}

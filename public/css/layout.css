@@ -1,0 +1,382 @@
+/* ============================================================
+   LAYOUT — Sidebar, Nav, Page Structure
+============================================================ */
+
+/* ── Shell principal ─────────────────────────────────────── */
+.app-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  background: var(--surface);
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--surface-container-low);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-4);
+  gap: var(--space-8);
+  z-index: 100;
+  overflow-y: auto;
+}
+
+/* Logo */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2);
+  text-decoration: none;
+}
+
+.sidebar-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.sidebar-logo-text {
+  font-family: var(--font-display);
+  font-size: var(--text-title-md);
+  font-weight: var(--weight-bold);
+  color: var(--primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Perfil del curator */
+.sidebar-curator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-lg);
+  background: var(--surface-container);
+}
+
+.sidebar-curator-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--secondary-container);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-label-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-curator-info { display: flex; flex-direction: column; min-width: 0; }
+
+.sidebar-curator-name {
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-semibold);
+  color: var(--on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-curator-role {
+  font-size: var(--text-label-sm);
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* Nav links */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--on-surface-variant);
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-medium);
+  transition: background var(--transition-fast),
+              color var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-link:hover {
+  background: var(--surface-variant);
+  color: var(--on-surface);
+}
+
+.nav-link.active {
+  background: var(--secondary-container);
+  color: var(--primary);
+  font-weight: var(--weight-semibold);
+}
+
+.nav-link-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+/* Card seasonal en sidebar */
+.sidebar-seasonal {
+  background: var(--primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sidebar-seasonal-label {
+  font-size: var(--text-label-sm);
+  color: var(--secondary-container);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.sidebar-seasonal-title {
+  font-family: var(--font-display);
+  font-size: var(--text-title-md);
+  font-weight: var(--weight-bold);
+  color: var(--on-primary);
+  line-height: var(--leading-tight);
+}
+
+.sidebar-seasonal-btn {
+  background: var(--secondary-container);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  align-self: flex-start;
+}
+
+.sidebar-seasonal-btn:hover { opacity: 0.85; }
+
+/* ── Contenido principal ─────────────────────────────────── */
+.main-content {
+  padding-left: var(--sidebar-width);
+  flex: 1;
+  width: calc(100% - var(--sidebar-width)); /* Fundamental no perderlo para el sidebar fijo */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  /* overflow-y: auto; (Opcional: puedes descomentarlo si prefieres que solo el main-content haga scroll interno) */
+}
+
+/* Topbar (breadcrumb + acciones) */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-8);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.8)); /* Fallback si var(--glass-bg) no existe */
+  backdrop-filter: blur(var(--glass-blur, 10px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.topbar-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background var(--transition-fast);
+  text-decoration: none;
+}
+
+.topbar-back:hover { background: var(--surface-variant); }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-label-md);
+  color: var(--on-surface-variant);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.breadcrumb-sep { opacity: 0.4; }
+
+.breadcrumb-current {
+  color: var(--on-surface);
+  font-weight: var(--weight-semibold);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.topbar-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+  position: relative;
+}
+
+.topbar-icon-btn:hover { background: var(--surface-variant); }
+
+/* Badge contador carrito */
+.cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--secondary);
+  color: var(--on-primary);
+  font-size: 0.6rem;
+  font-weight: var(--weight-bold);
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.cart-badge.visible { display: flex; }
+
+/* ── Page body ───────────────────────────────────────────── */
+.page-body {
+  flex: 1;
+  padding: var(--space-8);
+  /* FIX: No dejes que el contenido se desparrame en pantallas 4K */
+  max-width: 1200px; 
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-header {
+  margin-bottom: var(--space-8);
+}
+
+.page-header-label {
+  font-size: var(--text-label-md);
+  color: var(--on-surface-variant);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.page-header-title {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-lg);
+  font-weight: var(--weight-bold);
+  color: var(--on-surface);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+.page-header-desc {
+  font-size: var(--text-body-lg);
+  color: var(--on-surface-variant);
+  margin-top: var(--space-2);
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform var(--transition-base);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0; /* En móvil sí quitamos el margen porque el sidebar se oculta */
+  }
+
+  .page-body {
+    padding: var(--space-4);
+  }
+
+  .topbar {
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header-title {
+    font-size: var(--text-headline-md);
+  }
+
+  .topbar-actions .topbar-icon-btn:not(.cart-btn) {
+    display: none;
+  }
+}
+
+echo '
+#app {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+}' >> public/css/layout.css

@@ -2,8 +2,8 @@ FROM swipl:stable
 
 WORKDIR /app
 
-COPY minisuper_server.pl .
+COPY prolog/ ./prolog/
 
 EXPOSE 8080
 
-CMD ["swipl", "minisuper_server.pl"]
+CMD ["swipl", "prolog/server.pl"]
