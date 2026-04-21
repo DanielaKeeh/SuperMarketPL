@@ -3,342 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MiniSuper FrescaVida — Mapa de Tienda</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/map.css">
-  <link rel="stylesheet" href="css/sidebar.css">
-  <link rel="stylesheet" href="css/zone-view.css">
+  <title>FrescaVida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/map.css">
+  <link rel="stylesheet" href="/css/section.css">
+  <link rel="stylesheet" href="/css/office.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="logo-area">
-    <h1>🌿 Fresca<span>Vida</span></h1>
-    <p>Minisuper &nbsp;·&nbsp; Planta Baja</p>
-  </div>
-  <div class="header-info">
-    <div class="info-item">
-      <span class="label">Superficie</span>
-      <span class="value">~200 m²</span>
-    </div>
-    <div class="info-item info-hide-sm">
-      <span class="label">Cajas</span>
-      <span class="value">3 activas</span>
-    </div>
-    <div class="info-item info-hide-sm">
-      <span class="label">Pasillos</span>
-      <span class="value">2 principales</span>
-    </div>
-    <div class="info-item">
-      <span class="label">Secciones</span>
-      <span class="value">6</span>
-    </div>
-  </div>
-</header>
-
-<!-- BARRA DE BÚSQUEDA -->
-<div class="search-bar-wrapper">
-  <div class="search-bar">
-    <span class="search-icon">🔍</span>
-    <input type="search" id="searchInput" placeholder="Busca un producto o sección…" autocomplete="off">
-    <button class="search-clear" id="searchClear" aria-label="Limpiar búsqueda">✕</button>
-  </div>
-</div>
-<div class="search-chips" id="searchChips"></div>
-
-<!-- MAIN -->
-<div class="page">
-
-  <!-- MAPA -->
-  <div class="map-wrapper">
-    <div class="map-title">🗺️ Plano de Tienda</div>
-    <div class="store-map">
-      <div class="floor-grid">
-
-        <div class="zone z-lacteos pos-lacteos" tabindex="0"
-             data-zone="lacteos" 
-             data-label="Lácteos" data-icon="🥛">
-          <div class="zone-icon">🥛</div>
-          <div class="zone-name">Lácteos</div>
-          <div class="zone-sub">Anaquel frío</div>
-          <span class="aisle-label">A-01</span>
-        </div>
-
-        <div class="zone z-carnes pos-carnes" tabindex="0"
-             data-zone="carnes" 
-             data-label="Carnes &amp; Frío" data-icon="🥩">
-          <div class="zone-icon">🥩</div>
-          <div class="zone-name">Carnes &amp; Frío</div>
-          <div class="zone-sub">Charcutería</div>
-          <span class="aisle-label">B-01</span>
-        </div>
-
-        <div class="zone z-frutas pos-frutas" tabindex="0"
-             data-zone="frutas" 
-             data-label="Frutas &amp; Verduras" data-icon="🥦">
-          <div class="zone-icon">🥦</div>
-          <div class="zone-name">Frutas &amp; Verduras</div>
-          <div class="zone-sub">Producto fresco</div>
-          <span class="aisle-label">C-01</span>
-        </div>
-
-        <div class="zone z-bebidas pos-bebidas" tabindex="0"
-             data-zone="bebidas" 
-             data-label="Bebidas" data-icon="🧃">
-          <div class="zone-icon">🧃</div>
-          <div class="zone-name">Bebidas</div>
-          <div class="zone-sub">Frescas &amp; empacadas</div>
-          <span class="aisle-label">D-01</span>
-        </div>
-
-        <div class="zone z-snacks pos-snacks" tabindex="0"
-             data-zone="snacks" 
-             data-label="Snacks &amp; Botanas" data-icon="🍿">
-          <div class="zone-icon">🍿</div>
-          <div class="zone-name">Snacks &amp; Botanas</div>
-          <div class="zone-sub">Dulces &amp; salados</div>
-          <span class="aisle-label">E-01</span>
-        </div>
-
-        <div class="zone z-pasillo pos-pasillo-h1" aria-hidden="true">
-          ─── PASILLO PRINCIPAL 1 ───
-        </div>
-
-        <div class="zone z-bebidas pos-bebidas2" tabindex="0"
-             data-zone="bebidas2" 
-             data-label="Bebidas 2L" data-icon="🥤">
-          <div class="zone-icon">🥤</div>
-          <div class="zone-name">Bebidas 2L</div>
-          <div class="zone-sub">Presentaciones grandes</div>
-          <span class="aisle-label">B-02</span>
-        </div>
-
-        <div class="zone z-snacks pos-snacks2" tabindex="0"
-             data-zone="galleteria" 
-             data-label="Galletería" data-icon="🍪">
-          <div class="zone-icon">🍪</div>
-          <div class="zone-name">Galletería</div>
-          <div class="zone-sub">Cereales &amp; dulces</div>
-          <span class="aisle-label">C-02</span>
-        </div>
-
-        <div class="zone z-frutas pos-abarrotes" tabindex="0"
-             data-zone="abarrotes" 
-             data-label="Abarrotes" data-icon="🥫">
-          <div class="zone-icon">🥫</div>
-          <div class="zone-name">Abarrotes</div>
-          <div class="zone-sub">Enlatados &amp; conservas</div>
-          <span class="aisle-label">D-02</span>
-        </div>
-
-        <div class="zone z-limpieza pos-congelados" tabindex="0"
-             data-zone="congelados" 
-             data-label="Congelados" data-icon="🧊">
-          <div class="zone-icon">🧊</div>
-          <div class="zone-name">Congelados</div>
-          <div class="zone-sub">Helados &amp; pizzas</div>
-          <span class="aisle-label">E-02</span>
-        </div>
-
-        <div class="zone z-pasillo pos-pasillo-h2" aria-hidden="true">
-          ─── PASILLO PRINCIPAL 2 ───
-        </div>
-
-        <div class="zone z-limpieza pos-limpieza" tabindex="0"
-             data-zone="limpieza" 
-             data-label="Limpieza" data-icon="🧹">
-          <div class="zone-icon">🧹</div>
-          <div class="zone-name">Limpieza</div>
-          <div class="zone-sub">Hogar &amp; personal</div>
-          <span class="aisle-label">F-01</span>
-        </div>
-
-        <div class="zone z-caja pos-cajas" tabindex="0"
-             data-zone="cajas" 
-             data-label="Cajas Registradoras" data-icon="🛒">
-          <div class="zone-icon">🛒</div>
-          <div class="zone-name">Cajas</div>
-          <div class="caja-nums">
-            <span class="caja-num">1</span>
-            <span class="caja-num">2</span>
-            <span class="caja-num">3</span>
-          </div>
-        </div>
-
-        <div class="zone z-oficina pos-oficina" tabindex="0"
-             data-zone="oficina" 
-             data-label="Oficina" data-icon="📋">
-          <div class="zone-icon">📋</div>
-          <div class="zone-name">Oficina</div>
-          <div class="zone-sub">Administración</div>
-        </div>
-
-        <div class="zone z-bano pos-bano" tabindex="0"
-             data-zone="bano" 
-             data-label="Sanitarios" data-icon="🚻">
-          <div class="zone-icon">🚻</div>
-          <div class="zone-name">Sanitarios</div>
-          <div class="zone-sub">Clientes &amp; staff</div>
-        </div>
-
-        <div class="zone z-entrada pos-entrada" aria-hidden="true">
-          <div style="font-size:1.8rem">🚪</div>
-          <div>
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#5a2e00">ENTRADA PRINCIPAL</div>
-            <div style="font-size:.65rem;color:#8a5030;margin-top:2px">Av. Frescura #42 · Col. Verde Esperanza · Guadalajara, Jal.</div>
-          </div>
-        </div>
-
-      </div><!-- /floor-grid -->
-    </div><!-- /store-map -->
-    <p class="scroll-hint">← desliza el mapa →</p>
-  </div><!-- /map-wrapper -->
+<div class="app-shell">
 
   <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="sidebar-section">
-      <h3>Leyenda</h3>
-      <ul class="legend-list">
-        <li><span class="legend-dot" style="background:#74c69d"></span>Lácteos</li>
-        <li><span class="legend-dot" style="background:#e57373"></span>Carnes &amp; Frío</li>
-        <li><span class="legend-dot" style="background:#66bb6a"></span>Frutas &amp; Verduras</li>
-        <li><span class="legend-dot" style="background:#5fa8d3"></span>Bebidas</li>
-        <li><span class="legend-dot" style="background:#f4a261"></span>Snacks &amp; Botanas</li>
-        <li><span class="legend-dot" style="background:#9b72cf"></span>Limpieza / Congelados</li>
-        <li><span class="legend-dot" style="background:#52b788"></span>Cajas registradoras</li>
-        <li><span class="legend-dot" style="background:#c9b99a"></span>Oficina / Sanitarios</li>
-      </ul>
-    </div>
-    <div class="sidebar-section">
-      <h3>Horarios</h3>
-      <div class="horario-grid">
-        <div class="horario-item"><span class="dia">Lun – Vie</span><div class="horas">7:00–21:00</div></div>
-        <div class="horario-item"><span class="dia">Sábado</span><div class="horas">8:00–20:00</div></div>
-        <div class="horario-item"><span class="dia">Domingo</span><div class="horas">9:00–18:00</div></div>
-        <div class="horario-item"><span class="dia">Festivos</span><div class="horas">9:00–15:00</div></div>
-      </div>
-    </div>
-    <div class="sidebar-section">
-      <h3>Servicios</h3>
-      <div class="servicios-list">
-        <div class="servicio-tag"><span>💳</span> Efectivo y tarjeta</div>
-        <div class="servicio-tag"><span>📱</span> CoDi / Transferencia</div>
-        <div class="servicio-tag"><span>🅿️</span> Estacionamiento 10 autos</div>
-        <div class="servicio-tag"><span>♿</span> Acceso silla de ruedas</div>
-        <div class="servicio-tag"><span>📦</span> Servicio a domicilio</div>
-        <div class="servicio-tag"><span>🧾</span> Facturación electrónica</div>
-        <div class="servicio-tag"><span>🌐</span> WiFi para clientes</div>
-      </div>
-    </div>
-    <div class="sidebar-section">
-      <h3>Ofertas activas</h3>
-      <div class="oferta-box">
-        <div class="oferta-line"><span class="oferta-badge">2×1</span><span>Yogures — hasta agotar existencias</span></div>
-        <div class="oferta-line"><span class="oferta-badge">−15%</span><span>Frutas de temporada los miércoles</span></div>
-        <div class="oferta-line"><span class="oferta-badge">Combo</span><span>Refresco 2L + botana desde $38</span></div>
-      </div>
-    </div>
-  </div>
+  <aside class="sidebar" id="sidebar">
 
-</div><!-- /page -->
+    <a class="sidebar-logo" data-link="/">
+      <div class="sidebar-logo-icon">🌿</div>
+      <span class="sidebar-logo-text">FrescaVida</span>
+    </a>
 
-<!-- FOOTER -->
-<footer>
-  <p>MiniSuper FrescaVida · Guadalajara, Jal.</p>
-  <div class="badge">🌿 FICCIÓN ACADÉMICA</div>
-</footer>
-
-<!-- BOTÓN FLOTANTE (mobile) -->
-<button class="sidebar-toggle" id="sidebarToggle" aria-label="Ver información de tienda">
-  ℹ️ Info tienda
-</button>
-
-<!-- BOTTOM SHEET (mobile) -->
-<div class="bottom-sheet-overlay" id="bsOverlay"></div>
-<div class="bottom-sheet" id="bottomSheet">
-  <div class="bs-handle"></div>
-  <div class="bs-content">
-    <div class="sidebar-section">
-      <h3>Horarios</h3>
-      <div class="horario-grid">
-        <div class="horario-item"><span class="dia">Lun – Vie</span><div class="horas">7:00–21:00</div></div>
-        <div class="horario-item"><span class="dia">Sábado</span><div class="horas">8:00–20:00</div></div>
-        <div class="horario-item"><span class="dia">Domingo</span><div class="horas">9:00–18:00</div></div>
-        <div class="horario-item"><span class="dia">Festivos</span><div class="horas">9:00–15:00</div></div>
+    <div class="sidebar-curator">
+      <div class="sidebar-curator-avatar">KD</div>
+      <div class="sidebar-curator-info">
+        <span class="sidebar-curator-name">The Curator</span>
+        <span class="sidebar-curator-role">Premium Fresh Goods</span>
       </div>
     </div>
-    <div class="sidebar-section">
-      <h3>Servicios</h3>
-      <div class="servicios-list">
-        <div class="servicio-tag"><span>💳</span> Efectivo y tarjeta</div>
-        <div class="servicio-tag"><span>📱</span> CoDi / Transferencia</div>
-        <div class="servicio-tag"><span>🅿️</span> Estacionamiento 10 autos</div>
-        <div class="servicio-tag"><span>♿</span> Acceso silla de ruedas</div>
-        <div class="servicio-tag"><span>📦</span> Servicio a domicilio</div>
-        <div class="servicio-tag"><span>🧾</span> Facturación electrónica</div>
-        <div class="servicio-tag"><span>🌐</span> WiFi para clientes</div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-link active" data-link="/">
+        <span class="nav-link-icon">🗺️</span> Store Map
+      </button>
+      <button class="nav-link" data-link="/map">
+        <span class="nav-link-icon">⊞</span> Categories
+      </button>
+      <button class="nav-link" data-link="/office">
+        <span class="nav-link-icon">💼</span> Office
+      </button>
+    </nav>
+
+    <div class="sidebar-seasonal">
+      <span class="sidebar-seasonal-label">Curated Daily</span>
+      <span class="sidebar-seasonal-title">The Curator's Choice: Seasonal Greens</span>
+      <button class="sidebar-seasonal-btn" data-link="/section/frutas">
+        Shop Seasonal
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-back" id="topbar-back">←</button>
+        <div class="breadcrumb">
+          <span>HOME</span>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-current" id="breadcrumb-current">NAVIGATION HUB</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="search-input"
+            placeholder="Search the curator's selection..."
+            autocomplete="off">
+          <button class="search-clear" id="search-clear">✕</button>
+          <div class="search-results" id="search-results"></div>
+        </div>
+        <button class="topbar-icon-btn cart-btn" id="cart-btn">
+          🛒
+          <span class="cart-badge" id="cart-badge"></span>
+        </button>
+        <button class="topbar-icon-btn">👤</button>
       </div>
     </div>
-    <div class="sidebar-section">
-      <h3>Ofertas activas</h3>
-      <div class="oferta-box">
-        <div class="oferta-line"><span class="oferta-badge">2×1</span><span>Yogures — hasta agotar existencias</span></div>
-        <div class="oferta-line"><span class="oferta-badge">−15%</span><span>Frutas de temporada los miércoles</span></div>
-        <div class="oferta-line"><span class="oferta-badge">Combo</span><span>Refresco 2L + botana desde $38</span></div>
-      </div>
-    </div>
-    <div class="sidebar-section">
-      <h3>Leyenda</h3>
-      <ul class="legend-list">
-        <li><span class="legend-dot" style="background:#74c69d"></span>Lácteos</li>
-        <li><span class="legend-dot" style="background:#e57373"></span>Carnes &amp; Frío</li>
-        <li><span class="legend-dot" style="background:#66bb6a"></span>Frutas &amp; Verduras</li>
-        <li><span class="legend-dot" style="background:#5fa8d3"></span>Bebidas</li>
-        <li><span class="legend-dot" style="background:#f4a261"></span>Snacks &amp; Botanas</li>
-        <li><span class="legend-dot" style="background:#9b72cf"></span>Limpieza / Congelados</li>
-        <li><span class="legend-dot" style="background:#52b788"></span>Cajas registradoras</li>
-        <li><span class="legend-dot" style="background:#c9b99a"></span>Oficina / Sanitarios</li>
-      </ul>
-    </div>
+
+    <!-- APP — solo este div cambia con cada navegación -->
+    <div id="app"></div>
+
   </div>
 </div>
 
-<!-- VISTA DE DETALLE DE ZONA -->
-<div class="zone-view" id="zoneView">
-  <div class="zone-view-header">
-    <button class="zone-view-back" id="zoneViewBack">← Volver al mapa</button>
-    <div>
-      <div class="zone-view-title" id="zoneViewTitle"></div>
-      <div class="zone-view-sub" id="zoneViewSub"></div>
-    </div>
-  </div>
-  <div class="zone-view-body">
-    <div class="zone-view-location" id="zoneViewLocation"></div>
-    <table class="productos-table" id="productosTable">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Marca</th>
-          <th>Presentación</th>
-          <th>Precio</th>
-          <th>Nota</th>
-        </tr>
-      </thead>
-      <tbody id="productosBody"></tbody>
-    </table>
-    <div class="empty-state" id="emptyState" style="display:none">
-      Sin productos registrados en esta sección.
-    </div>
-  </div>
-</div>
+<!-- Overlay mobile -->
+<div id="sidebar-overlay"></div>
 
-<!-- SCRIPTS -->
-<script src="js/api.js"></script>
-<script src="js/search.js"></script>
-<script src="js/zone-view.js"></script>
-<script src="js/app.js"></script>
-
+<script src="/js/app.js"></script>
 </body>
 </html>

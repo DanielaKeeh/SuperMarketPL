@@ -1,158 +1,247 @@
-/* ══════════════════════════════
-   MAP AREA
-══════════════════════════════ */
-.map-wrapper {
-  padding: clamp(16px,3vw,36px) clamp(16px,3vw,36px) clamp(16px,3vw,36px) clamp(16px,4vw,48px);
-  overflow-x: auto;
-}
-.map-title {
-  font-family:'Syne',sans-serif; font-size:1rem; font-weight:700;
-  color:var(--text-mid); letter-spacing:2px; text-transform:uppercase;
-  margin-bottom:18px; display:flex; align-items:center; gap:10px; white-space:nowrap;
-}
-.map-title::after {
-  content:''; flex:1; height:1px;
-  background:linear-gradient(90deg,var(--green-light),transparent);
-  min-width:20px;
+/* ============================================================
+   MAP VIEW — Vista del mapa de la tienda
+============================================================ */
+
+/* ── Search del mapa ─────────────────────────────────────── */
+.map-search-wrapper {
+  margin-bottom: var(--space-8);
 }
 
-.store-map {
-  background:var(--warm-white);
-  border-radius:20px;
-  border:2px solid var(--green-light);
-  box-shadow:0 8px 40px var(--shadow);
-  padding: clamp(12px,2vw,24px);
-  position:relative;
-  overflow:hidden;
-  min-width: 480px;
+/* ── Grid del home (sección cards) ──────────────────────── */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
 }
-.store-map::before {
-  content:''; position:absolute; inset:0;
+
+/* Card featured — ocupa 7 columnas */
+.home-grid .section-card-featured {
+  grid-column: span 7;
+  min-height: 280px;
+}
+
+/* Card secundaria — ocupa 5 columnas */
+.home-grid .section-card-secondary {
+  grid-column: span 5;
+  min-height: 280px;
+}
+
+/* Cards pequeñas — 4 columnas cada una */
+.home-grid .section-card-small {
+  grid-column: span 4;
+  min-height: 200px;
+}
+
+/* ── Mapa isométrico ─────────────────────────────────────── */
+.map-container {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.map-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background-image:
-    linear-gradient(rgba(82,183,136,.06) 1px, transparent 1px),
-    linear-gradient(90deg,rgba(82,183,136,.06) 1px, transparent 1px);
-  background-size:32px 32px; pointer-events:none;
+    linear-gradient(rgba(1,45,29,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1,45,29,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
 }
 
-/* ══════════════════════════════
-   FLOOR GRID
-══════════════════════════════ */
-.floor-grid {
-  display:grid;
-  grid-template-columns: 90px 1fr 1fr 1fr 1fr 80px;
-  grid-template-rows: 50px 130px 20px 130px 20px 90px 50px;
-  gap:8px; position:relative;
+/* SVG isométrico */
+.map-svg {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
 }
 
-/* ══════════════════════════════
-   ZONAS
-══════════════════════════════ */
-.zone {
-  border-radius:14px;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  padding:10px 8px;
-  font-size:.7rem; font-weight:500; text-align:center;
-  position:relative; cursor:pointer;
-  transition:transform .2s, box-shadow .2s, outline .15s;
-  border:1.5px solid transparent;
-  -webkit-tap-highlight-color: transparent;
-  outline: 2px solid transparent;
-}
-.zone:hover, .zone:focus-visible {
-  transform:translateY(-2px);
-  box-shadow:0 6px 20px var(--shadow-strong);
-  z-index:10;
-}
-.zone.highlight {
-  outline:3px solid var(--amber);
-  outline-offset:2px;
-  animation: pulse-highlight .6s ease;
-}
-@keyframes pulse-highlight {
-  0%   { transform:scale(1); }
-  40%  { transform:scale(1.04); }
-  100% { transform:scale(1); }
-}
-.zone .zone-icon { font-size:1.6rem; margin-bottom:5px; }
-.zone .zone-name {
-  font-family:'Syne',sans-serif; font-size:.68rem;
-  font-weight:700; letter-spacing:.5px; line-height:1.2;
-}
-.zone .zone-sub { font-size:.6rem; opacity:.7; margin-top:2px; font-style:italic; }
-
-/* ── Colores por zona ── */
-.z-lacteos  { background:#eaf6f0; border-color:#74c69d; color:#1b4332; }
-.z-bebidas  { background:#dbeeff; border-color:#5fa8d3; color:#0d3b5e; }
-.z-snacks   { background:#fff3e0; border-color:#f4a261; color:#7c3a0a; }
-.z-limpieza { background:#f0ebff; border-color:#9b72cf; color:#3a1460; }
-.z-frutas   { background:#e8f5e9; border-color:#66bb6a; color:#1b5e20; }
-.z-carnes   { background:#fce4e4; border-color:#e57373; color:#7f0000; }
-.z-caja     { background:var(--green-dark); border-color:var(--green-bright); color:white; }
-.z-entrada  { background:var(--amber-light); border-color:var(--amber); color:#5a2e00; }
-.z-pasillo  { background:#f5f5f5; border-color:#ddd; color:#888; font-size:.6rem; cursor:default; }
-.z-oficina  { background:#f8f4ee; border-color:#c9b99a; color:#4a3728; }
-.z-bano     { background:#f0f4f8; border-color:#a0b4c8; color:#2c4a6e; }
-
-/* ── Posiciones en el grid ── */
-.pos-entrada   { grid-column:1/7; grid-row:7; border-radius:0 0 16px 16px; flex-direction:row; gap:12px; padding:12px 24px; cursor:default; }
-.pos-cajas     { grid-column:1/3; grid-row:6; }
-.pos-oficina   { grid-column:3/5; grid-row:6; }
-.pos-bano      { grid-column:5/7; grid-row:6; }
-.pos-lacteos   { grid-column:1;   grid-row:1/5; }
-.pos-carnes    { grid-column:2;   grid-row:1/3; }
-.pos-frutas    { grid-column:3;   grid-row:1/3; }
-.pos-bebidas   { grid-column:4;   grid-row:1/3; }
-.pos-snacks    { grid-column:5;   grid-row:1/3; }
-.pos-limpieza  { grid-column:6;   grid-row:1/5; }
-.pos-pasillo-h1 { grid-column:2/6; grid-row:3; align-items:center; justify-content:center; font-size:.58rem; color:#aaa; letter-spacing:1px; text-transform:uppercase; border-radius:6px; }
-.pos-pasillo-h2 { grid-column:2/6; grid-row:5; align-items:center; justify-content:center; font-size:.58rem; color:#aaa; letter-spacing:1px; text-transform:uppercase; border-radius:6px; }
-.pos-bebidas2  { grid-column:2;   grid-row:4/6; }
-.pos-snacks2   { grid-column:3;   grid-row:4/6; }
-.pos-abarrotes { grid-column:4;   grid-row:4/6; }
-.pos-congelados{ grid-column:5;   grid-row:4/6; }
-
-/* ── Etiqueta de pasillo ── */
-.aisle-label {
-  position:absolute;
-  background:var(--green-pale); color:var(--green-mid);
-  font-family:'Syne',sans-serif; font-size:.55rem; font-weight:700;
-  padding:2px 6px; border-radius:20px;
-  bottom:4px; right:6px; letter-spacing:.5px;
+/* Zonas clickeables del mapa */
+.map-zone {
+  cursor: pointer;
+  transition: opacity var(--transition-fast),
+              filter var(--transition-fast);
 }
 
-/* ── Números de caja ── */
-.caja-nums { display:flex; gap:4px; margin-top:4px; flex-wrap:wrap; justify-content:center; }
-.caja-num {
-  background:var(--green-bright); color:var(--green-dark);
-  border-radius:50%; width:18px; height:18px;
-  font-size:.6rem; font-weight:700;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Syne',sans-serif;
+.map-zone:hover {
+  opacity: 0.85;
+  filter: brightness(1.05);
 }
 
-/* ── Tooltip desktop ── */
-@media (hover:hover) {
-  .zone[data-tip]:hover::after {
-    content:attr(data-tip);
-    position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
-    background:var(--green-dark); color:white; font-size:.65rem;
-    padding:6px 12px; border-radius:8px; white-space:nowrap;
-    z-index:100; box-shadow:0 4px 16px var(--shadow-strong); pointer-events:none;
-  }
+.map-zone.highlighted {
+  filter: brightness(1.1) drop-shadow(0 0 8px rgba(43,105,77,0.4));
 }
 
-/* ── Scroll hint mobile ── */
-.scroll-hint {
-  display:none;
-  font-size:.65rem; color:var(--text-light); letter-spacing:1px;
-  text-transform:uppercase; text-align:center; padding:6px 0 0;
+/* Labels sobre el mapa */
+.map-label {
+  pointer-events: none;
+  user-select: none;
 }
 
-@media (max-width:900px) {
-  .scroll-hint { display:block; }
-  .map-wrapper { padding:14px 14px 80px; }
+.map-label-text {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: 13px;
+  fill: var(--on-surface);
 }
-@media (max-width:600px) {
-  .map-title { font-size:.85rem; }
+
+.map-label-chip {
+  rx: 12px;
+  ry: 12px;
+}
+
+/* ── Density indicator ───────────────────────────────────── */
+.map-density {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-medium);
+  color: var(--on-surface);
+  box-shadow: var(--shadow-sm);
+  position: absolute;
+  bottom: var(--space-5);
+  left: var(--space-5);
+}
+
+.map-density-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--secondary);
+  animation: pulse-dot 2s infinite;
+}
+
+/* ── Leyenda del mapa ────────────────────────────────────── */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-body-md);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+}
+
+.map-legend-item:hover {
+  background: var(--surface-container);
+}
+
+.map-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+/* ── Directory list (vista alternativa del mapa) ─────────── */
+.directory-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.directory-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast),
+              transform var(--transition-fast);
+  text-decoration: none;
+}
+
+.directory-item:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateX(4px);
+}
+
+.directory-item-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.directory-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.directory-item-name {
+  font-family: var(--font-display);
+  font-size: var(--text-title-md);
+  font-weight: var(--weight-semibold);
+  color: var(--on-surface);
+  letter-spacing: var(--tracking-tight);
+}
+
+.directory-item-status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.directory-item-arrow {
+  color: var(--on-surface-variant);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Toggle view (mapa / directorio) */
+.map-view-toggle {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .home-grid .section-card-featured  { grid-column: span 12; }
+  .home-grid .section-card-secondary { grid-column: span 12; }
+  .home-grid .section-card-small     { grid-column: span 6; }
+}
+
+@media (max-width: 768px) {
+  .home-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-grid .section-card-featured  { grid-column: span 2; }
+  .home-grid .section-card-secondary { grid-column: span 2; }
+  .home-grid .section-card-small     { grid-column: span 1; }
+
+  .map-container { padding: var(--space-4); }
+}
+
+@media (max-width: 480px) {
+  .home-grid { grid-template-columns: 1fr; }
+  .home-grid .section-card-featured,
+  .home-grid .section-card-secondary,
+  .home-grid .section-card-small { grid-column: span 1; }
 }

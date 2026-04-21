@@ -1,12 +1,11 @@
 services:
-
   prolog:
     build: .
     container_name: minisuper-prolog
     expose:
       - "8080"
     volumes:
-      - ./minisuper_server.pl:/app/minisuper_server.pl
+      - ./prolog:/app/prolog
     restart: unless-stopped
 
   nginx:
