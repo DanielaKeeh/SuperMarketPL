@@ -77,7 +77,7 @@ render_section_card_featured(json(Seccion), HTML) :-
         '<div class="section-card-label">Featured Section</div>',
         '<div class="section-card-title">', Nombre, '</div>',
         '<div class="section-card-desc">', Desc, '</div>',
-        '<div class="section-card-link">Browse Selection \342\206\222</div>',
+        '<div class="section-card-link">Browse Selection &#8594;</div>',
         '</div>'
     ], HTML).
 

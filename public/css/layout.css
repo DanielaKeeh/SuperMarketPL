@@ -187,8 +187,6 @@
 /* ── Contenido principal ─────────────────────────────────── */
 .main-content {
   padding-left: var(--sidebar-width);
-  flex: 1;
-  width: calc(100% - var(--sidebar-width)); /* Fundamental no perderlo para el sidebar fijo */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -374,9 +372,8 @@
   }
 }
 
-echo '
 #app {
   width: 100%;
   min-width: 0;
   flex: 1;
-}' >> public/css/layout.css
+}
