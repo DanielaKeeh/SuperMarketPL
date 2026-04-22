@@ -1,227 +1,18 @@
 /* ============================================================
-   MAP VIEW — Vista del mapa de la tienda
+   MAP VIEW — Home grid y sección cards
 ============================================================ */
 
-/* ── Search del mapa ─────────────────────────────────────── */
-.map-search-wrapper {
-  margin-bottom: var(--space-8);
-}
-
-/* ── Grid del home (sección cards) ──────────────────────── */
+/* ── Grid del home ───────────────────────────────────────── */
 .home-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto;
   gap: var(--space-4);
   margin-bottom: var(--space-8);
 }
 
-/* Card featured — ocupa 7 columnas */
-.home-grid .section-card-featured {
-  grid-column: span 7;
-  min-height: 280px;
-}
-
-/* Card secundaria — ocupa 5 columnas */
-.home-grid .section-card-secondary {
-  grid-column: span 5;
-  min-height: 280px;
-}
-
-/* Cards pequeñas — 4 columnas cada una */
-.home-grid .section-card-small {
-  grid-column: span 4;
-  min-height: 200px;
-}
-
-/* ── Mapa isométrico ─────────────────────────────────────── */
-.map-container {
-  background: var(--surface-container-lowest);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-  margin-bottom: var(--space-4);
-}
-
-.map-container::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(1,45,29,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(1,45,29,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-}
-
-/* SVG isométrico */
-.map-svg {
-  width: 100%;
-  height: auto;
-  max-height: 520px;
-}
-
-/* Zonas clickeables del mapa */
-.map-zone {
-  cursor: pointer;
-  transition: opacity var(--transition-fast),
-              filter var(--transition-fast);
-}
-
-.map-zone:hover {
-  opacity: 0.85;
-  filter: brightness(1.05);
-}
-
-.map-zone.highlighted {
-  filter: brightness(1.1) drop-shadow(0 0 8px rgba(43,105,77,0.4));
-}
-
-/* Labels sobre el mapa */
-.map-label {
-  pointer-events: none;
-  user-select: none;
-}
-
-.map-label-text {
-  font-family: var(--font-display);
-  font-weight: var(--weight-bold);
-  font-size: 13px;
-  fill: var(--on-surface);
-}
-
-.map-label-chip {
-  rx: 12px;
-  ry: 12px;
-}
-
-/* ── Density indicator ───────────────────────────────────── */
-.map-density {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: var(--surface-container-lowest);
-  border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--text-body-md);
-  font-weight: var(--weight-medium);
-  color: var(--on-surface);
-  box-shadow: var(--shadow-sm);
-  position: absolute;
-  bottom: var(--space-5);
-  left: var(--space-5);
-}
-
-.map-density-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--secondary);
-  animation: pulse-dot 2s infinite;
-}
-
-/* ── Leyenda del mapa ────────────────────────────────────── */
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
-}
-
-.map-legend-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-body-md);
-  color: var(--on-surface-variant);
-  cursor: pointer;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  transition: background var(--transition-fast);
-}
-
-.map-legend-item:hover {
-  background: var(--surface-container);
-}
-
-.map-legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: var(--radius-sm);
-  flex-shrink: 0;
-}
-
-/* ── Directory list (vista alternativa del mapa) ─────────── */
-.directory-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.directory-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
-  background: var(--surface-container-lowest);
-  border-radius: var(--radius-xl);
-  cursor: pointer;
-  transition: box-shadow var(--transition-fast),
-              transform var(--transition-fast);
-  text-decoration: none;
-}
-
-.directory-item:hover {
-  box-shadow: var(--shadow-sm);
-  transform: translateX(4px);
-}
-
-.directory-item-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.directory-item-info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  flex: 1;
-}
-
-.directory-item-name {
-  font-family: var(--font-display);
-  font-size: var(--text-title-md);
-  font-weight: var(--weight-semibold);
-  color: var(--on-surface);
-  letter-spacing: var(--tracking-tight);
-}
-
-.directory-item-status {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-}
-
-.directory-item-arrow {
-  color: var(--on-surface-variant);
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-/* Toggle view (mapa / directorio) */
-.map-view-toggle {
-  display: flex;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
-}
+.home-grid .section-card-featured  { grid-column: span 7; min-height: 280px; }
+.home-grid .section-card-secondary { grid-column: span 5; min-height: 280px; }
+.home-grid .section-card-small     { grid-column: span 4; min-height: 200px; }
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 1100px) {
@@ -235,8 +26,6 @@
   .home-grid .section-card-featured  { grid-column: span 2; }
   .home-grid .section-card-secondary { grid-column: span 2; }
   .home-grid .section-card-small     { grid-column: span 1; }
-
-  .map-container { padding: var(--space-4); }
 }
 
 @media (max-width: 480px) {

@@ -2,12 +2,6 @@
    APP.JS — Router SPA + navegación + búsqueda live
 ============================================================ */
 
-/* ── Estado global ───────────────────────────────────────── */
-const state = {
-  cart:        [],
-  currentView: 'home',
-};
-
 /* ── Router ──────────────────────────────────────────────── */
 const app = document.getElementById('app');
 
@@ -21,14 +15,18 @@ async function navigate(path, pushState = true) {
 
     app.innerHTML = html;
 
-    /* Lee el breadcrumb que Prolog puso en data-breadcrumb */
     const pageBody = app.querySelector('[data-breadcrumb]');
     if (pageBody) {
       const bc = document.getElementById('breadcrumb-current');
       if (bc) bc.textContent = pageBody.dataset.breadcrumb;
     }
 
-    if (pushState) history.pushState({ path }, '', path);
+    if (pushState) {
+      history.pushState({ path }, '', path);
+    } else {
+      history.replaceState({ path }, '', path);
+    }
+
     updateActiveNav(path);
     attachViewEvents();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -52,8 +50,7 @@ document.addEventListener('click', e => {
   const link = e.target.closest('[data-link]');
   if (!link) return;
   e.preventDefault();
-  const path = link.dataset.link;
-  navigate(path);
+  navigate(link.dataset.link);
 });
 
 /* Botón atrás/adelante del navegador */
@@ -63,9 +60,9 @@ window.addEventListener('popstate', e => {
 
 /* ── Sidebar ─────────────────────────────────────────────── */
 function initSidebar() {
-  const sidebar  = document.getElementById('sidebar');
-  const menuBtn  = document.getElementById('menu-btn');
-  const overlay  = document.getElementById('sidebar-overlay');
+  const sidebar = document.getElementById('sidebar');
+  const menuBtn = document.getElementById('menu-btn');
+  const overlay = document.getElementById('sidebar-overlay');
 
   if (!menuBtn || !sidebar) return;
 
@@ -94,9 +91,9 @@ function updateActiveNav(path) {
 function initSearch() {
   const input    = document.getElementById('search-input');
   const clearBtn = document.getElementById('search-clear');
-  const results  = document.getElementById('search-results');
 
-  if (!input) return;
+  if (!input || input._searchInit) return;
+  input._searchInit = true;
 
   let debounceTimer;
 
@@ -130,10 +127,7 @@ function renderSearchResults(resultados) {
   if (!results) return;
 
   if (!resultados.length) {
-    results.innerHTML = `
-      <div class="search-empty">
-        <span>😕</span> Sin resultados
-      </div>`;
+    results.innerHTML = `<div class="search-empty"><span>😕</span> Sin resultados</div>`;
     results.classList.add('visible');
     return;
   }
@@ -149,68 +143,16 @@ function renderSearchResults(resultados) {
 }
 
 function hideSearchResults() {
-  const results = document.getElementById('search-results');
-  if (results) results.classList.remove('visible');
+  document.getElementById('search-results')?.classList.remove('visible');
 }
 
 document.addEventListener('click', e => {
   if (!e.target.closest('.search-wrapper')) hideSearchResults();
 });
 
-/* ── Carrito ─────────────────────────────────────────────── */
-function addToCart(nombre, marca, precio) {
-  const existing = state.cart.find(i => i.nombre === nombre);
-  if (existing) {
-    existing.cantidad++;
-  } else {
-    state.cart.push({ nombre, marca, precio: Number(precio), cantidad: 1 });
-  }
-  updateCartBadge();
-  showCartToast(nombre);
-}
-
-function removeFromCart(nombre) {
-  state.cart = state.cart.filter(i => i.nombre !== nombre);
-  updateCartBadge();
-}
-
-function updateCartBadge() {
-  const badge = document.getElementById('cart-badge');
-  if (!badge) return;
-  const total = state.cart.reduce((acc, i) => acc + i.cantidad, 0);
-  badge.textContent = total;
-  badge.classList.toggle('visible', total > 0);
-}
-
-function cartTotal() {
-  return state.cart
-    .reduce((acc, i) => acc + i.precio * i.cantidad, 0)
-    .toFixed(2);
-}
-
-function showCartToast(nombre) {
-  const toast = document.createElement('div');
-  toast.className = 'cart-toast';
-  toast.innerHTML = `🛒 <strong>${nombre}</strong> agregado al carrito`;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add('visible'), 10);
-  setTimeout(() => {
-    toast.classList.remove('visible');
-    setTimeout(() => toast.remove(), 300);
-  }, 2500);
-}
-
 /* ── Eventos dinámicos post-navegación ───────────────────── */
 function attachViewEvents() {
-  document.querySelectorAll('[data-add-cart]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const { nombre, marca, precio } = btn.dataset;
-      addToCart(nombre, marca, precio);
-    });
-  });
-
   initSearch();
-  updateCartBadge();
 }
 
 /* ── Loading state ───────────────────────────────────────── */
@@ -235,82 +177,6 @@ function renderError(msg) {
       <button class="btn btn-primary" onclick="navigate('/')">Volver al inicio</button>
     </div>`;
 }
-
-/* ── Estilos dinámicos ───────────────────────────────────── */
-const toastStyle = document.createElement('style');
-toastStyle.textContent = `
-  .cart-toast {
-    position: fixed;
-    bottom: var(--space-6);
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--primary);
-    color: var(--on-primary);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-full);
-    font-size: var(--text-body-md);
-    font-weight: var(--weight-medium);
-    box-shadow: var(--shadow-lg);
-    opacity: 0;
-    transition: opacity var(--transition-base), transform var(--transition-base);
-    z-index: 9999;
-    white-space: nowrap;
-  }
-  .cart-toast.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  .search-results {
-    position: absolute;
-    top: calc(100% + var(--space-2));
-    left: 0;
-    right: 0;
-    background: var(--surface-container-lowest);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-    z-index: 200;
-    display: none;
-    overflow: hidden;
-    max-height: 360px;
-    overflow-y: auto;
-  }
-  .search-results.visible { display: block; }
-  .search-result-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    width: 100%;
-    padding: var(--space-3) var(--space-5);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    transition: background var(--transition-fast);
-  }
-  .search-result-item:hover { background: var(--surface-container); }
-  .search-result-nombre {
-    font-weight: var(--weight-semibold);
-    color: var(--on-surface);
-    font-size: var(--text-body-md);
-  }
-  .search-result-meta {
-    font-size: var(--text-label-md);
-    color: var(--on-surface-variant);
-    text-transform: none;
-    letter-spacing: 0;
-  }
-  .search-empty {
-    padding: var(--space-6);
-    text-align: center;
-    color: var(--on-surface-variant);
-    font-size: var(--text-body-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-  }
-`;
-document.head.appendChild(toastStyle);
 
 /* ── Init ────────────────────────────────────────────────── */
 (function init() {

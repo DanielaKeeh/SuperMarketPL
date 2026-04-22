@@ -109,13 +109,6 @@ render_product_card_featured(json(Producto), HTML) :-
         '<div class="product-card-meta">', Pres, '</div>',
         '<div class="product-card-footer">',
         '<span class="product-card-price">$', Precio, '</span>',
-        '<button class="btn-icon"',
-        ' data-add-cart',
-        ' data-nombre="', Nombre, '"',
-        ' data-marca="',  Marca,  '"',
-        ' data-precio="', Precio, '">',
-        '🛒',
-        '</button>',
         '</div>',
         '</div>'
     ], HTML).
@@ -137,13 +130,6 @@ render_product_card(json(Producto), HTML) :-
         '<div class="product-card-meta">', Pres, '</div>',
         '<div class="product-card-footer">',
         '<span class="product-card-price">$', Precio, '</span>',
-        '<button class="btn-icon"',
-        ' data-add-cart',
-        ' data-nombre="', Nombre, '"',
-        ' data-marca="',  Marca,  '"',
-        ' data-precio="', Precio, '">',
-        '🛒',
-        '</button>',
         '</div>',
         '</div>'
     ], HTML).

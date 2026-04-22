@@ -13,17 +13,13 @@
   <link rel="stylesheet" href="/css/office.css">
 </head>
 <body>
-
 <div class="app-shell">
-
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
-
     <a class="sidebar-logo" data-link="/">
       <div class="sidebar-logo-icon">🌿</div>
       <span class="sidebar-logo-text">FrescaVida</span>
     </a>
-
     <div class="sidebar-curator">
       <div class="sidebar-curator-avatar">KD</div>
       <div class="sidebar-curator-info">
@@ -31,19 +27,14 @@
         <span class="sidebar-curator-role">Premium Fresh Goods</span>
       </div>
     </div>
-
     <nav class="sidebar-nav">
       <button class="nav-link active" data-link="/">
         <span class="nav-link-icon">🗺️</span> Store Map
-      </button>
-      <button class="nav-link" data-link="/map">
-        <span class="nav-link-icon">⊞</span> Categories
       </button>
       <button class="nav-link" data-link="/office">
         <span class="nav-link-icon">💼</span> Office
       </button>
     </nav>
-
     <div class="sidebar-seasonal">
       <span class="sidebar-seasonal-label">Curated Daily</span>
       <span class="sidebar-seasonal-title">The Curator's Choice: Seasonal Greens</span>
@@ -51,20 +42,18 @@
         Shop Seasonal
       </button>
     </div>
-
   </aside>
-
   <!-- CONTENIDO PRINCIPAL -->
   <div class="main-content">
-
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="topbar-left">
         <button class="topbar-back" id="topbar-back">←</button>
+        <button class="hamburger-btn" id="menu-btn">☰</button>
         <div class="breadcrumb">
-          <span>HOME</span>
-          <span class="breadcrumb-sep">›</span>
-          <span class="breadcrumb-current" id="breadcrumb-current">NAVIGATION HUB</span>
+        <span class="breadcrumb-home" data-link="/">HOME</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current" id="breadcrumb-current">NAVIGATION HUB</span>
         </div>
       </div>
       <div class="topbar-actions">
@@ -76,23 +65,14 @@
           <button class="search-clear" id="search-clear">✕</button>
           <div class="search-results" id="search-results"></div>
         </div>
-        <button class="topbar-icon-btn cart-btn" id="cart-btn">
-          🛒
-          <span class="cart-badge" id="cart-badge"></span>
-        </button>
-        <button class="topbar-icon-btn">👤</button>
       </div>
     </div>
-
     <!-- APP — solo este div cambia con cada navegación -->
     <div id="app"></div>
-
   </div>
 </div>
-
 <!-- Overlay mobile -->
 <div id="sidebar-overlay"></div>
-
 <script src="/js/app.js"></script>
 </body>
 </html>
