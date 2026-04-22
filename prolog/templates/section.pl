@@ -97,9 +97,8 @@ render_product_card_featured(json(Producto), HTML) :-
     member(marca=Marca,         Producto),
     member(presentacion=Pres,   Producto),
     member(precio=Precio,       Producto),
-    member(comentario=Com,      Producto),
     member(tipo=Tipo,           Producto),
-    render_producto_tag(Com, TagHTML),
+    render_producto_tag(Tipo, TagHTML),
     atomic_list_concat([
         '<div class="product-card" data-tipo="', Tipo, '">',
         '<div class="product-card-tags">', TagHTML, '</div>',
@@ -118,9 +117,8 @@ render_product_card(json(Producto), HTML) :-
     member(marca=Marca,       Producto),
     member(presentacion=Pres, Producto),
     member(precio=Precio,     Producto),
-    member(comentario=Com,    Producto),
     member(tipo=Tipo,         Producto),
-    render_producto_tag(Com, TagHTML),
+    render_producto_tag(Tipo, TagHTML),
     atomic_list_concat([
         '<div class="product-card" data-tipo="', Tipo, '">',
         '<div class="product-card-tags">', TagHTML, '</div>',
@@ -135,17 +133,50 @@ render_product_card(json(Producto), HTML) :-
     ], HTML).
 
 render_producto_tag('', '').
-render_producto_tag(Com, HTML) :-
-    Com \= '',
-    tag_class(Com, Class),
+render_producto_tag(Tipo, HTML) :-
+    Tipo \= '',
+    tag_class(Tipo, Class),
     atomic_list_concat([
-        '<span class="tag ', Class, '">', Com, '</span>'
+        '<span class="tag ', Class, '">', Tipo, '</span>'
     ], HTML).
 
-tag_class(Com, 'tag-blue')   :- sub_atom(Com, _, _, _, 'frío'),       !.
-tag_class(Com, 'tag-blue')   :- sub_atom(Com, _, _, _, 'Refrigerado'), !.
-tag_class(Com, 'tag-green')  :- sub_atom(Com, _, _, _, 'Orgánico'),   !.
-tag_class(Com, 'tag-green')  :- sub_atom(Com, _, _, _, 'Natural'),    !.
-tag_class(Com, 'tag-amber')  :- sub_atom(Com, _, _, _, 'azúcar'),     !.
-tag_class(Com, 'tag-purple') :- sub_atom(Com, _, _, _, 'lactosa'),    !.
-tag_class(_,   'tag-green').
+tag_class('Leche',        'tag-blue').
+tag_class('Yogurt',       'tag-blue').
+tag_class('Queso',        'tag-blue').
+tag_class('Crema',        'tag-blue').
+tag_class('Mantequilla',  'tag-blue').
+tag_class('Fruta',        'tag-green').
+tag_class('Verdura',      'tag-green').
+tag_class('Carne',        'tag-amber').
+tag_class('CarnesFrias',  'tag-amber').
+tag_class('Preparado',    'tag-amber').
+tag_class('Refresco',     'tag-purple').
+tag_class('Agua',         'tag-purple').
+tag_class('Jugo',         'tag-purple').
+tag_class('Cerveza',      'tag-purple').
+tag_class('Isotonica',    'tag-purple').
+tag_class('Energetica',   'tag-purple').
+tag_class('Botana',       'tag-amber').
+tag_class('Dulce',        'tag-amber').
+tag_class('Chocolate',    'tag-amber').
+tag_class('Galleta',      'tag-amber').
+tag_class('Panaderia',    'tag-amber').
+tag_class('Cereal',       'tag-green').
+tag_class('Harina',       'tag-green').
+tag_class('Granola',      'tag-green').
+tag_class('Cloro',        'tag-purple').
+tag_class('Detergente',   'tag-purple').
+tag_class('Suavizante',   'tag-purple').
+tag_class('Lavatrastes',  'tag-purple').
+tag_class('Limpiador',    'tag-purple').
+tag_class('Papel',        'tag-purple').
+tag_class('Aromatizante', 'tag-purple').
+tag_class('Desinfectante','tag-purple').
+tag_class('Esponja',      'tag-purple').
+tag_class('Helado',       'tag-blue').
+tag_class('Congelado',    'tag-blue').
+tag_class('Lata',         'tag-green').
+tag_class('Pasta',        'tag-green').
+tag_class('Salsa',        'tag-green').
+tag_class('Aceite',       'tag-green').
+tag_class(_,              'tag-green').
