@@ -96,7 +96,8 @@ function initSearch() {
   const clearBtn = document.getElementById('search-clear');
   const results  = document.getElementById('search-results');
 
-  if (!input) return;
+  if (!input || input.dataset.initialized) return;
+  input.dataset.initialized = 'true';
 
   let debounceTimer;
 
@@ -106,6 +107,13 @@ function initSearch() {
     clearTimeout(debounceTimer);
     if (!q) { hideSearchResults(); return; }
     debounceTimer = setTimeout(() => fetchSearch(q), 300);
+  });
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const q = input.value.trim();
+      if (q) fetchSearch(q);
+    }
   });
 
   clearBtn?.addEventListener('click', () => {

@@ -15,6 +15,8 @@
 :- discontiguous home:render_section_card_small/2.
 :- discontiguous home:render_ofertas_bar/2.
 :- discontiguous home:render_oferta_badge/2.
+:- discontiguous home:render_home_body/3.
+:- discontiguous home:section_svg/2.
 
 % ── render_home/1 ────────────────────────────────────────────
 render_home(HTML) :-
@@ -29,9 +31,11 @@ render_home_body(Secciones, Ofertas, HTML) :-
     render_home_grid(Secciones, GridHTML),
     render_ofertas_bar(Ofertas, OfertasHTML),
     atomic_list_concat([
+        '<div class="page-body">',
         HeaderHTML,
         OfertasHTML,
-        GridHTML
+        GridHTML,
+        '</div>'
     ], HTML).
 
 % ── render_home_header/1 ─────────────────────────────────────
@@ -67,13 +71,15 @@ render_section_card_featured(json(Seccion), HTML) :-
     member(id=Id,            Seccion),
     member(nombre=Nombre,    Seccion),
     member(descripcion=Desc, Seccion),
-    member(icon=Icon,        Seccion),
     member(color=Color,      Seccion),
+    section_svg(Id, SVG),
     atomic_list_concat([
         '<div class="section-card section-card-featured"',
         ' style="background:', Color, '; color: var(--on-surface)"',
         ' data-link="/section/', Id, '">',
-        '<div class="section-card-icon">', Icon, '</div>',
+        '<div class="section-card-icon">',
+        '<div class="icon-circle">', SVG, '</div>',
+        '</div>',
         '<div class="section-card-label">Featured Section</div>',
         '<div class="section-card-title">', Nombre, '</div>',
         '<div class="section-card-desc">', Desc, '</div>',
@@ -86,13 +92,15 @@ render_section_card_secondary(json(Seccion), HTML) :-
     member(id=Id,            Seccion),
     member(nombre=Nombre,    Seccion),
     member(descripcion=Desc, Seccion),
-    member(icon=Icon,        Seccion),
     member(color=Color,      Seccion),
+    section_svg(Id, SVG),
     atomic_list_concat([
         '<div class="section-card section-card-secondary"',
         ' style="background:', Color, '"',
         ' data-link="/section/', Id, '">',
-        '<div class="section-card-icon">', Icon, '</div>',
+        '<div class="section-card-icon">',
+        '<div class="icon-circle">', SVG, '</div>',
+        '</div>',
         '<div class="section-card-title">', Nombre, '</div>',
         '<div class="section-card-desc">', Desc, '</div>',
         '</div>'
@@ -102,14 +110,16 @@ render_section_card_secondary(json(Seccion), HTML) :-
 render_section_card_small(json(Seccion), HTML) :-
     member(id=Id,            Seccion),
     member(nombre=Nombre,    Seccion),
-    member(icon=Icon,        Seccion),
     member(color=Color,      Seccion),
     member(descripcion=Desc, Seccion),
+    section_svg(Id, SVG),
     atomic_list_concat([
         '<div class="section-card section-card-small"',
         ' style="background:', Color, '"',
         ' data-link="/section/', Id, '">',
-        '<div class="section-card-icon">', Icon, '</div>',
+        '<div class="section-card-icon">',
+        '<div class="icon-circle">', SVG, '</div>',
+        '</div>',
         '<div class="section-card-title">', Nombre, '</div>',
         '<div class="section-card-desc">', Desc, '</div>',
         '</div>'

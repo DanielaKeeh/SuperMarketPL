@@ -79,7 +79,7 @@
 
 /* ── Search Bar ──────────────────────────────────────────── */
 .search-wrapper {
-  position: relative; /* FIX: Importante para que los resultados no floten por donde sea */
+  position: relative;
   flex: 1;
   width: 100%;
   max-width: 400px;
@@ -143,10 +143,10 @@
 /* FIX: Contenedor de resultados del buscador */
 .search-results {
   position: absolute;
-  top: 100%; /* Justo debajo del input */
+  top: 100%;
   left: 0;
   right: 0;
-  z-index: 999; /* Por encima de todo */
+  z-index: 999;
   background: var(--surface-bright);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
@@ -229,16 +229,9 @@
 }
 
 .section-card-icon {
-  font-size: 3rem;
   position: absolute;
   top: var(--space-5);
   right: var(--space-5);
-  opacity: 0.5;
-}
-
-.section-card-featured .section-card-icon {
-  font-size: 4rem;
-  opacity: 0.3;
 }
 
 .section-card-label {
@@ -468,4 +461,5 @@
   background: var(--outline-variant);
   border: none;
   margin: var(--space-6) 0;
+}
 }

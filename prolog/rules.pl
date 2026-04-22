@@ -121,14 +121,15 @@ mas_caro(Tipo, Nombre, Precio) :-
 % aparece en cualquier posición dentro de Atomo
 
 buscar_por_nombre(Query, Tipo, Marca, Nombre, Precio) :-
-    % Convierte el query a minúsculas para búsqueda insensible
     downcase_atom(Query, QueryLower),
-    % Obtiene un producto de la db
     producto(Tipo, Marca, Nombre, _, Precio, _),
-    % Convierte el nombre del producto a minúsculas
     downcase_atom(Nombre, NombreLower),
-    % Verifica que el query aparezca en alguna posición del nombre
-    sub_atom(NombreLower, _, _, _, QueryLower).
+    downcase_atom(Tipo, TipoLower),
+    (
+        sub_atom(NombreLower, _, _, _, QueryLower)
+    ;
+        sub_atom(TipoLower, _, _, _, QueryLower)
+    ).
 
 
 % ── misma_categoria/2 ──────────────────────────────────────
