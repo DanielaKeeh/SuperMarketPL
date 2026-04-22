@@ -29,9 +29,11 @@ render_home_body(Secciones, Ofertas, HTML) :-
     render_home_grid(Secciones, GridHTML),
     render_ofertas_bar(Ofertas, OfertasHTML),
     atomic_list_concat([
+        '<div class="page-body">',
         HeaderHTML,
         OfertasHTML,
-        GridHTML
+        GridHTML,
+        '</div>'
     ], HTML).
 
 % ── render_home_header/1 ─────────────────────────────────────
