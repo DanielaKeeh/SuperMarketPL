@@ -15,13 +15,9 @@ render_section(SeccionId, HTML) :-
 
 render_section_body(SeccionId, Productos, Info, HTML) :-
     render_section_header(SeccionId, Info, HeaderHTML),
-    render_section_filters(Productos, FiltersHTML),
+    render_section_filters(SeccionId, Productos, FiltersHTML),
     render_products_grid(Productos, GridHTML),
-    atomic_list_concat([
-        HeaderHTML,
-        FiltersHTML,
-        GridHTML
-    ], HTML).
+    atomic_list_concat([HeaderHTML, FiltersHTML, GridHTML], HTML).
 
 render_section_header(_SeccionId, json(Info), HTML) :-
     member(nombre=Nombre,    Info),
@@ -49,23 +45,23 @@ render_section_header(_SeccionId, json(Info), HTML) :-
         '</div>'
     ], HTML).
 
-render_section_filters(Productos, HTML) :-
+render_section_filters(SeccionId, Productos, HTML) :-
     maplist([json(P), Tipo]>>(member(tipo=Tipo, P)), Productos, Tipos),
     list_to_set(Tipos, TiposUnicos),
-    maplist(render_filter_chip, TiposUnicos, ChipsHTML),
+    maplist(render_filter_chip(SeccionId), TiposUnicos, ChipsHTML),
     atomic_list_concat(ChipsHTML, ChipsStr),
     atomic_list_concat([
         '<div class="section-filters">',
         '<span class="section-filters-label">Filtrar</span>',
-        '<button class="chip chip-active">Todos</button>',
+        '<button class="chip chip-active" onclick="filterProducts(\'', SeccionId, '\',\'Todos\')">Todos</button>',
         ChipsStr,
         '</div>'
     ], HTML).
 
-render_filter_chip(Tipo, HTML) :-
+render_filter_chip(SeccionId, Tipo, HTML) :-
     atomic_list_concat([
         '<button class="chip chip-filter"',
-        ' onclick="filterProducts(\'', Tipo, '\')">',
+        ' onclick="filterProducts(\'', SeccionId, '\',\'', Tipo, '\')">',
         Tipo,
         '</button>'
     ], HTML).
@@ -75,9 +71,7 @@ render_products_grid([], HTML) :-
         '<div class="empty-state">',
         '<div class="empty-state-icon">🔍</div>',
         '<div class="empty-state-title">Sin productos</div>',
-        '<div class="empty-state-desc">',
-        'No hay productos registrados en esta sección.',
-        '</div>',
+        '<div class="empty-state-desc">No hay productos registrados en esta sección.</div>',
         '</div>'
     ], HTML).
 
@@ -93,11 +87,11 @@ render_products_grid([Featured | Rest], HTML) :-
     ], HTML).
 
 render_product_card_featured(json(Producto), HTML) :-
-    member(nombre=Nombre,       Producto),
-    member(marca=Marca,         Producto),
-    member(presentacion=Pres,   Producto),
-    member(precio=Precio,       Producto),
-    member(tipo=Tipo,           Producto),
+    member(nombre=Nombre,     Producto),
+    member(marca=Marca,       Producto),
+    member(presentacion=Pres, Producto),
+    member(precio=Precio,     Producto),
+    member(tipo=Tipo,         Producto),
     render_producto_tag(Tipo, TagHTML),
     atomic_list_concat([
         '<div class="product-card" data-tipo="', Tipo, '">',
