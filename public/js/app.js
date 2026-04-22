@@ -2,17 +2,14 @@
    APP.JS — Router SPA + navegación + búsqueda live
 ============================================================ */
 
-/* ── Router ──────────────────────────────────────────────── */
 const app = document.getElementById('app');
 
 async function navigate(path, pushState = true) {
   try {
     showLoading();
-
     const url = buildEndpoint(path);
     const res  = await fetch(url, { headers: { 'Accept': 'text/html' } });
     const html = await res.text();
-
     app.innerHTML = html;
 
     const pageBody = app.querySelector('[data-breadcrumb]');
@@ -45,7 +42,6 @@ function buildEndpoint(path) {
   return `/views${path}`;
 }
 
-/* Intercept clicks en links internos */
 document.addEventListener('click', e => {
   const link = e.target.closest('[data-link]');
   if (!link) return;
@@ -53,7 +49,6 @@ document.addEventListener('click', e => {
   navigate(link.dataset.link);
 });
 
-/* Botón atrás/adelante del navegador */
 window.addEventListener('popstate', e => {
   if (e.state?.path) navigate(e.state.path, false);
 });
@@ -85,6 +80,60 @@ function updateActiveNav(path) {
       link.classList.add('active');
     }
   });
+}
+
+/* ── Filtrado de productos ───────────────────────────────── */
+window.filterProducts = async function(seccionId, tipo) {
+  document.querySelectorAll('.section-filters .chip').forEach(c => {
+    c.classList.remove('chip-active');
+    c.classList.add('chip-filter');
+  });
+  event.target.classList.add('chip-active');
+  event.target.classList.remove('chip-filter');
+
+  if (tipo === 'Todos') {
+    const res  = await fetch(`/views/section?id=${seccionId}`, { headers: { 'Accept': 'text/html' } });
+    const html = await res.text();
+    const tmp  = document.createElement('div');
+    tmp.innerHTML = html;
+    const newGrid = tmp.querySelector('.products-grid');
+    const curGrid = document.querySelector('.products-grid');
+    if (newGrid && curGrid) curGrid.replaceWith(newGrid);
+    return;
+  }
+
+  try {
+    const res  = await fetch(`/api/seccion/filtro?id=${seccionId}&tipo=${encodeURIComponent(tipo)}`);
+    const data = await res.json();
+    const grid = document.querySelector('.products-grid');
+    if (!grid) return;
+
+    if (!data.ok || !data.productos.length) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">🔍</div>
+          <div class="empty-state-title">Sin productos</div>
+          <div class="empty-state-desc">No hay productos de tipo "${tipo}" en esta sección.</div>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = data.productos.map(p => `
+      <div class="product-card" data-tipo="${p.tipo}">
+        <div class="product-card-tags"><span class="tag tag-green">${p.tipo}</span></div>
+        <div class="product-card-image">🛍️</div>
+        <div class="product-card-brand">${p.marca}</div>
+        <div class="product-card-name">${p.nombre}</div>
+        <div class="product-card-meta">${p.presentacion}</div>
+        <div class="product-card-footer">
+          <span class="product-card-price">$${p.precio}</span>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    console.error('Error filtrando productos:', err);
+  }
 }
 
 /* ── Búsqueda live ───────────────────────────────────────── */
@@ -150,7 +199,7 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.search-wrapper')) hideSearchResults();
 });
 
-/* ── Eventos dinámicos post-navegación ───────────────────── */
+/* ── Eventos post-navegación ─────────────────────────────── */
 function attachViewEvents() {
   initSearch();
 }
