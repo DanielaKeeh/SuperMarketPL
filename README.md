@@ -1,148 +1,169 @@
 # 🌿 SuperMarketPL — MiniSuper FrescaVida
 
-Sistema de información para el MiniSuper FrescaVida desarrollado íntegramente en **SWI-Prolog**. Combina una base de conocimiento lógica con un servidor web embebido, permitiendo consultar productos, precios, ubicaciones y reglas de negocio desde el navegador.
+An information system for the MiniSuper FrescaVida grocery store, built entirely in **SWI-Prolog**. It combines a logic-based knowledge base with an embedded web server, letting you browse products, prices, locations, and business rules straight from the browser.
+
+## 📸 Screenshots
+
+<img width="1891" height="902" alt="image" src="https://github.com/user-attachments/assets/a3852a6b-0478-4222-9cc0-d98a86bc6acc" />
+
+<img width="1872" height="902" alt="image" src="https://github.com/user-attachments/assets/ab4093c5-ba21-4d89-80c4-6e39db6fb273" />
+
+<img width="1895" height="901" alt="image" src="https://github.com/user-attachments/assets/d5c778d6-4953-43e4-95e1-323f7326cf14" />
+
+<img width="1881" height="897" alt="image" src="https://github.com/user-attachments/assets/c2899ead-b367-4b79-932b-8e10116e1130" />
+
 
 ---
 
 ## 📦 Stack
 
-| Capa | Tecnología |
+| Layer | Technology |
 |------|-----------|
-| Backend / Lógica | SWI-Prolog + `http_server` |
-| Proxy / Red | nginx + Docker Compose |
-| Frontend | HTML · CSS · JS (estático) |
+| Backend / Logic | SWI-Prolog + `http_server` |
+| Proxy / Networking | nginx + Docker Compose |
+| Frontend | Static HTML · CSS · JS |
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 SuperMarketPL/
 ├── prolog/
-│   ├── server.pl          ← Punto de entrada; HTTP handlers
-│   ├── db.pl              ← Hechos (productos, ubicaciones, precios)
-│   ├── rules.pl           ← Reglas de negocio
-│   ├── queries.pl         ← Predicados de consulta compuestos
+│   ├── server.pl          ← Entry point; HTTP handlers
+│   ├── db.pl               ← Facts (products, locations, prices, sections, offers)
+│   ├── rules.pl             ← Business rules
+│   ├── queries.pl           ← Composite query predicates (JSON-ready)
 │   └── templates/
-│       ├── layout.pl      ← Topbar y wrapper HTML global
-│       ├── home.pl        ← Vista principal (grid de secciones)
-│       ├── map.pl         ← Mapa interactivo de la tienda
-│       ├── section.pl     ← Vista de categoría de productos
-│       └── office.pl      ← Información y contacto
+│       ├── layout.pl        ← Topbar and global HTML wrapper
+│       ├── home.pl           ← Main view (section grid)
+│       ├── map.pl            ← Interactive store map
+│       ├── section.pl        ← Product-category view
+│       └── office.pl         ← Info and contact
 ├── public/
-│   ├── css/               ← Hojas de estilo (tokens, components)
-│   └── js/                ← app.js (router SPA, fetch helpers)
+│   ├── css/                  ← Stylesheets (tokens, components)
+│   └── js/                    ← app.js (SPA router, fetch helpers)
 ├── nginx.conf
 └── docker-compose.yml
 ```
 
 ---
 
-## 🚀 Requisitos
+## 🚀 Requirements
 
-- Docker Desktop 4.x o superior (incluye Docker Compose v2)
-- Windows 10/11 con WSL 2, macOS 12+ o Linux (Ubuntu 20.04+)
-- Puerto **80** disponible en el host
-- Conexión a internet solo para la primera build
+- Docker Desktop 4.x or later (includes Docker Compose v2)
+- Windows 10/11 with WSL 2, macOS 12+, or Linux (Ubuntu 20.04+)
+- Port **80** available on the host
+- Internet connection only needed for the first build
 
 ---
 
-## ⚙️ Instalación
+## ⚙️ Installation
 
-**1. Clonar el repositorio**
+**1. Clone the repository**
 ```bash
-git clone https://github.com/tu-usuario/SuperMarketPL.git
+git clone https://github.com/your-username/SuperMarketPL.git
 cd SuperMarketPL
 ```
 
-**2. Build y arranque**
+**2. Build and start**
 ```bash
 docker compose up --build
 ```
-La primera ejecución puede tardar 2-3 minutos. Cuando veas esto en consola, está listo:
+The first run can take 2-3 minutes. When you see this in the console, it's ready:
 ```
-🌿 MiniSuper FrescaVida — servidor iniciado
+🌿 MiniSuper FrescaVida — server started
    http://localhost:8080
 ```
 
-**3. Abrir en el navegador**
+**3. Open in your browser**
 ```
 http://localhost
 ```
 
 ---
 
-## 🛠️ Comandos Útiles
+## 🛠️ Useful Commands
 
 ```bash
-# Arrancar sin rebuild (más rápido)
+# Start without rebuilding (faster)
 docker compose up
 
-# Detener y eliminar contenedores
+# Stop and remove containers
 docker compose down
 
-# Rebuild completo (obligatorio al cambiar archivos .pl)
+# Full rebuild (required after changing .pl files)
 docker compose up --build
 
-# Reiniciar solo nginx (al cambiar nginx.conf)
+# Restart only nginx (after changing nginx.conf)
 docker compose restart nginx
 
-# Ver logs del servidor Prolog
+# View the Prolog server logs
 docker compose logs prolog --tail=30
 
-# Seguir todos los logs en tiempo real
+# Follow all logs in real time
 docker compose logs -f
 ```
 
 ---
 
-## 🧠 Base de Conocimiento Prolog
+## 🧠 Prolog Knowledge Base
 
-La lógica del sistema está dividida en tres archivos: `db.pl` (hechos), `rules.pl` (reglas derivadas) y `queries.pl` (predicados de consulta).
+The system's logic is split into three files: `db.pl` (facts), `rules.pl` (derived rules), and `queries.pl` (query predicates that shape the JSON responses served by the API).
 
-### Hechos — `db.pl`
+### Facts — `db.pl`
 
 #### `producto/6`
-Define cada producto de la tienda.
+Defines each product in the store.
 ```prolog
 producto(Tipo, Marca, Nombre, Presentacion, Precio, Comentario).
 
-% Ejemplos:
-producto('Leche', 'Sello Rojo', 'Entera', '1L', 38, 'Pasteurizada').
-producto('Refresco', 'Coca-Cola', 'Cola', '600ml', 22, '').
-producto('Botana', 'Sabritas', 'Papas Limon', '45g', 15, 'Sabor intenso').
+% Examples:
+producto('Leche', 'Lala', 'Entera', '1L', 33, 'Entera cremosa fresca').
+producto('Refresco', 'Coca-Cola', 'Original', '600ml', 18, 'Sabor clásico dulce').
+producto('Queso', 'Chilchota', 'Manchego', '400g', 68, 'Rebanado curado').
 ```
 
 #### `lugar/2`
-Ubica cada tipo de producto en la tienda.
+Maps each product category to a location within the store.
 ```prolog
-lugar('Leche', 'Refrigerador zona A').
-lugar('Refresco', 'Pasillo 2').
-lugar('Botana', 'Pasillo 1').
+lugar('Lacteo', 'Refrigerador zona A').
+lugar('Bebida', 'Pasillo D').
 ```
 
 #### `categoria/2`
-Agrupa tipos de productos en categorías de alto nivel.
+Groups product types into higher-level categories.
 ```prolog
 categoria('Lacteo', 'Leche').
 categoria('Lacteo', 'Queso').
 categoria('Bebida', 'Refresco').
-categoria('Snack', 'Botana').
-categoria('FrutaVerdura', 'Verdura').
-categoria('FrutaVerdura', 'Fruta').
-categoria('CarnesFrios', 'Fiambre').
+```
+
+#### `seccion/6`
+Defines each storefront section shown on the home page and the map (id, name, description, icon, color, aisle).
+```prolog
+seccion('lacteos', 'Lácteos', 'Frescos de granja seleccionados', '🥛', '#eaf6f0', 'A-01').
+seccion('bebidas', 'Bebidas', 'Refrescantes y energizantes', '🧃', '#dbeeff', 'D-01').
+```
+
+#### `oferta/4`
+Current promotions shown on the home page (id, description, badge, related section).
+```prolog
+oferta(1, 'Yogures — hasta agotar existencias', '2×1', 'lacteos').
+oferta(3, 'Refresco 2L + botana desde $38', 'Combo', 'bebidas').
 ```
 
 ---
 
-### Reglas — `rules.pl`
+### Rules — `rules.pl`
 
-#### `donde/2` — Localizar un producto
+#### `donde/2` — Locate a product
 ```prolog
 donde(Tipo, Lugar) :-
-    lugar(Tipo, Lugar).
+    categoria(Categoria, Tipo),
+    lugar(Categoria, Lugar).
 ```
-Devuelve el pasillo donde se encuentra un tipo de producto.
+Returns the aisle where a product type is located.
 ```prolog
 donde('Leche', Lugar).
 % Lugar = 'Refrigerador zona A'
@@ -150,175 +171,246 @@ donde('Leche', Lugar).
 
 ---
 
-#### `buscar/5` — Buscar por categoría
+#### `productos_de_seccion/3` — Products in a storefront section
 ```prolog
-buscar(Cat, Tipo, Marca, Nombre, Precio) :-
-    categoria(Cat, Tipo),
-    producto(Tipo, Marca, Nombre, _, Precio, _).
+productos_de_seccion(SeccionId, Productos, Lugar) :-
+    seccion_a_categoria(SeccionId, Categoria),
+    findall(
+        producto(Tipo, Marca, Nombre, Pres, Precio, Com),
+        (categoria(Categoria, Tipo), producto(Tipo, Marca, Nombre, Pres, Precio, Com)),
+        Productos
+    ),
+    lugar(Categoria, Lugar).
 ```
-Encadena `categoria/2` y `producto/6` para listar todos los productos de una categoría de un solo golpe.
-```prolog
-buscar('Lacteo', Tipo, Marca, Nombre, Precio).
-% Devuelve todas las leches, quesos...
-```
+Bridges the frontend's section id (e.g. `'lacteos'`) to the underlying category and returns every matching product plus its location.
 
 ---
 
-#### `precio_max/3` — Filtrar por presupuesto
+#### `seccion_a_categoria/2` — Frontend section → domain category
 ```prolog
-precio_max(Max, Nombre, Precio) :-
-    producto(_, _, Nombre, _, Precio, _),
+seccion_a_categoria('lacteos',    'Lacteo').
+seccion_a_categoria('bebidas',    'Bebida').
+seccion_a_categoria('snacks',     'Snack').
+seccion_a_categoria('frutas',     'FrutaVerdura').
+seccion_a_categoria('carnes',     'Carnes').
+seccion_a_categoria('harinas',    'Harinas').
+seccion_a_categoria('limpieza',   'Limpieza').
+seccion_a_categoria('congelados', 'Congelado').
+seccion_a_categoria('abarrotes',  'Abarrote').
+```
+A lookup table that maps the short ids used in URLs and the UI to the category atoms used in `db.pl`.
+
+---
+
+#### `precio_max/5` — Filter by budget
+```prolog
+precio_max(Max, Tipo, Marca, Nombre, Precio) :-
+    producto(Tipo, Marca, Nombre, _, Precio, _),
     Precio =< Max.
 ```
-Retorna todos los productos cuyo precio es menor o igual al máximo indicado.
+Returns every product priced at or below the given maximum.
 ```prolog
-precio_max(20, Nombre, Precio).
-% Todos los productos de $20 o menos
+precio_max(20, Tipo, Marca, Nombre, Precio).
+% Every product priced $20 or less
 ```
 
 ---
 
-#### `mas_barato/3` — El más económico de su tipo
+#### `mas_barato/3` — Cheapest of its type
 ```prolog
 mas_barato(Tipo, Nombre, Precio) :-
     producto(Tipo, _, Nombre, _, Precio, _),
-    \+ (producto(Tipo, _, _, _, Precio2, _), Precio2 < Precio).
+    \+ (
+        producto(Tipo, _, _, _, OtroPrecio, _),
+        OtroPrecio < Precio
+    ).
 ```
-Usa **negación por fallo** (`\+`): un producto es el más barato si no existe otro del mismo tipo con precio menor. Forma idiomática de expresar un mínimo en Prolog.
+Uses **negation as failure** (`\+`): a product is the cheapest if no other product of the same type has a lower price. The idiomatic way to express a minimum in Prolog.
 ```prolog
 mas_barato('Leche', Nombre, Precio).
-% Nombre = 'Entera', Precio = 38
 ```
 
 ---
 
-#### `misma_categoria/2` — Comparar dos productos
+#### `mas_caro/3` — Most expensive of its type
+```prolog
+mas_caro(Tipo, Nombre, Precio) :-
+    producto(Tipo, _, Nombre, _, Precio, _),
+    \+ (
+        producto(Tipo, _, _, _, OtroPrecio, _),
+        OtroPrecio > Precio
+    ).
+```
+Same idea as `mas_barato/3`, but negating the opposite comparison to find a maximum instead.
+
+---
+
+#### `buscar_por_nombre/5` — Search by name
+```prolog
+buscar_por_nombre(Query, Tipo, Marca, Nombre, Precio) :-
+    downcase_atom(Query, QueryLower),
+    producto(Tipo, Marca, Nombre, _, Precio, _),
+    downcase_atom(Nombre, NombreLower),
+    sub_atom(NombreLower, _, _, _, QueryLower).
+```
+Case-insensitive substring search over product names — powers the search bar.
+```prolog
+buscar_por_nombre('cola', Tipo, Marca, Nombre, Precio).
+```
+
+---
+
+#### `misma_categoria/2` — Compare two products
 ```prolog
 misma_categoria(Nombre1, Nombre2) :-
     producto(Tipo, _, Nombre1, _, _, _),
     producto(Tipo, _, Nombre2, _, _, _),
     Nombre1 \= Nombre2.
 ```
-Verifica si dos productos son del mismo tipo. `Nombre1 \= Nombre2` evita que un producto se compare consigo mismo.
+Checks whether two products are of the same type. `Nombre1 \= Nombre2` keeps a product from matching itself.
 ```prolog
 misma_categoria('Entera', 'Deslactosada').  % true
-misma_categoria('Entera', 'Cola').           % false
+misma_categoria('Entera', 'Cola').          % false
 ```
 
 ---
 
-#### `info/1` — Vista detallada de un producto
+#### `todas_las_secciones/1` and `todas_las_ofertas/1`
+Collect every `seccion/6` and `oferta/4` fact into a list, ready to be turned into JSON for the home page.
+
+---
+
+#### `info_producto/6` — Full product detail
 ```prolog
-info(Nombre) :-
-    producto(Tipo, Marca, Nombre, Pres, Precio, Com),
-    lugar(Tipo, Lugar),
-    format("Producto: ~w~nMarca: ~w~nTipo: ~w~n...", [...]).
+info_producto(Nombre, Tipo, Marca, Presentacion, Precio, Comentario) :-
+    producto(Tipo, Marca, Nombre, Presentacion, Precio, Comentario).
 ```
-Consolida toda la información de un producto (datos + ubicación) en una sola consulta. Útil para depuración desde la terminal.
+Looks up a product by name and returns all of its stored fields; `query_info_producto/2` in `queries.pl` then attaches its location via `donde/2`.
 ```prolog
-info('Manchego').
-info('Cola').
+info_producto('Manchego', Tipo, Marca, Presentacion, Precio, Comentario).
 ```
 
 ---
 
-### Referencia Rápida
+### Quick Reference
 
-| Predicado | Aridad | Archivo | Descripción |
+| Predicate | Arity | File | Description |
 |-----------|--------|---------|-------------|
-| `producto` | 6 | `db.pl` | Hecho. Un producto con tipo, marca, nombre, presentación, precio y comentario. |
-| `lugar` | 2 | `db.pl` | Hecho. Pasillo o zona de cada tipo de producto. |
-| `categoria` | 2 | `db.pl` | Hecho. Agrupa tipos en categorías de alto nivel. |
-| `donde` | 2 | `rules.pl` | Regla. Devuelve el pasillo de un tipo. Puente a `lugar/2`. |
-| `buscar` | 5 | `rules.pl` | Regla. Lista productos de una categoría encadenando `categoria/2` + `producto/6`. |
-| `precio_max` | 3 | `rules.pl` | Regla. Filtra productos con precio ≤ al máximo dado. |
-| `mas_barato` | 3 | `rules.pl` | Regla. El producto más barato de su tipo (negación por fallo). |
-| `misma_categoria` | 2 | `rules.pl` | Regla. Comprueba si dos productos son del mismo tipo. |
-| `info` | 1 | `queries.pl` | Predicado de impresión. Muestra todos los datos de un producto. |
+| `producto` | 6 | `db.pl` | Fact. A product with type, brand, name, packaging, price, and comment. |
+| `lugar` | 2 | `db.pl` | Fact. Aisle or zone for each category. |
+| `categoria` | 2 | `db.pl` | Fact. Groups product types into higher-level categories. |
+| `seccion` | 6 | `db.pl` | Fact. A storefront section (id, name, description, icon, color, aisle). |
+| `oferta` | 4 | `db.pl` | Fact. A current promotion tied to a section. |
+| `donde` | 2 | `rules.pl` | Rule. Returns a product type's aisle. |
+| `productos_de_seccion` | 3 | `rules.pl` | Rule. Lists every product in a storefront section. |
+| `seccion_a_categoria` | 2 | `rules.pl` | Rule. Maps a section id to its domain category. |
+| `precio_max` | 5 | `rules.pl` | Rule. Filters products priced at or below a given maximum. |
+| `mas_barato` | 3 | `rules.pl` | Rule. The cheapest product of its type (negation as failure). |
+| `mas_caro` | 3 | `rules.pl` | Rule. The most expensive product of its type. |
+| `buscar_por_nombre` | 5 | `rules.pl` | Rule. Case-insensitive search by product name. |
+| `misma_categoria` | 2 | `rules.pl` | Rule. Checks if two products share a type. |
+| `todas_las_secciones` | 1 | `rules.pl` | Rule. Collects all storefront sections. |
+| `todas_las_ofertas` | 1 | `rules.pl` | Rule. Collects all current offers. |
+| `info_producto` | 6 | `rules.pl` | Rule. Full detail of a single product. |
 
 ---
 
-## 🌐 Rutas del Servidor
+## 🌐 Server Routes
 
-| Ruta | Descripción |
+### Views (server-rendered)
+
+| Route | Description |
 |------|-------------|
-| `/` | Página principal — grid de secciones y ofertas |
-| `/map` | Mapa interactivo de la tienda |
-| `/section/:id` | Vista de categoría con lista de productos |
-| `/office` | Información, horarios y contacto |
-| `/api/products` | API JSON — todos los productos |
-| `/api/search` | API JSON — búsqueda por nombre o marca |
+| `/` and `/views/home` | Home page — section grid and offers |
+| `/map` and `/views/map` | Interactive store map |
+| `/section` and `/views/section` | Category view with its product list |
+| `/office` and `/views/office` | Info, hours, and contact |
+
+### JSON API
+
+| Route | Description |
+|------|-------------|
+| `/api/secciones` | All storefront sections |
+| `/api/seccion` | Products for a given section |
+| `/api/seccion/filtro` | Products for a section, filtered by product type |
+| `/api/buscar` | Search products by name |
+| `/api/precio` | Filter products by maximum price |
+| `/api/barato` | Cheapest product of a given type |
+| `/api/caro` | Most expensive product of a given type |
+| `/api/producto` | Full detail of a single product |
+| `/api/ofertas` | Current promotions |
+| `/api/oficina` | Office / contact information |
 
 ---
 
-## 💻 Consultas desde la Terminal
+## 💻 Querying from the Terminal
 
-Para probar sin Docker, carga los archivos directamente en SWI-Prolog (escribe sin el `?-`, Prolog lo pone solo):
+To try it without Docker, load the files directly in SWI-Prolog (type queries without the `?-`, Prolog adds it for you):
 
 ```prolog
-% Cargar
-consult('/ruta/al/proyecto/prolog/db.pl').
-consult('/ruta/al/proyecto/prolog/rules.pl').
+% Load
+consult('/path/to/project/prolog/db.pl').
+consult('/path/to/project/prolog/rules.pl').
 
-% Por tipo
+% By type
 producto('Leche', Marca, Nombre, Pres, Precio, Com).
 
-% Ubicación
+% Location
 donde('Botana', Lugar).
 
-% Por categoría
-buscar('Lacteo', Tipo, Marca, Nombre, Precio).
+% Products in a storefront section
+productos_de_seccion('lacteos', Productos, Lugar).
 
-% Por presupuesto
-precio_max(25, Nombre, Precio).
+% By budget
+precio_max(25, Tipo, Marca, Nombre, Precio).
 
-% El más barato
+% The cheapest one
 mas_barato('Refresco', Nombre, Precio).
 
-% Info completa
-info('Manchego').
+% Full detail
+info_producto('Manchego', Tipo, Marca, Presentacion, Precio, Comentario).
 ```
 
-> Presiona `;` para ver el siguiente resultado, `.` para parar.
+> Press `;` to see the next result, `.` to stop.
 
 ---
 
 ## 🐛 Troubleshooting
 
-| Síntoma | Solución |
+| Symptom | Fix |
 |---------|----------|
-| Error 403 al abrir `localhost` | `nginx.conf` no redirige `/` a Prolog. Ver Fix 3. |
-| Variables `_G1234` en pantalla | Template SSR con predicado incompleto. Revisar `format/2` en `home.pl`. |
-| Warning `deprecated source_search_working_directory` | `consult` usa rutas relativas. Cambiar a `/app/prolog/...`. Ver Fix 1. |
-| `ERROR: Exported procedure X/N is not defined` | Aridad en `:- module(..., [pred/N])` no coincide con la definición. Ver Fix 2. |
-| Puerto 80 en uso | Cambiar en `docker-compose.yml`: `ports: ["8090:80"]` y abrir `localhost:8090`. |
-| Cambios en `.pl` no se reflejan | Usar `docker compose up --build` para rebuild. |
+| 403 error when opening `localhost` | `nginx.conf` isn't proxying `/` to Prolog. See Fix 3. |
+| `_G1234` variables showing on screen | SSR template with an incomplete predicate. Check `format/2` in `home.pl`. |
+| `deprecated source_search_working_directory` warning | `consult` is using relative paths. Switch to `/app/prolog/...`. See Fix 1. |
+| `ERROR: Exported procedure X/N is not defined` | The arity in `:- module(..., [pred/N])` doesn't match the actual definition. See Fix 2. |
+| Port 80 already in use | Change it in `docker-compose.yml`: `ports: ["8090:80"]` and open `localhost:8090`. |
+| Changes in `.pl` files don't show up | Use `docker compose up --build` to rebuild. |
 
 ---
 
-## 📋 Fixes Aplicados
+## 📋 Fixes Applied
 
-| # | Descripción | Archivo | Estado |
+| # | Description | File | Status |
 |---|-------------|---------|--------|
-| Fix 1 | Rutas relativas deprecadas en `consult` | `server.pl` | ✅ Resuelto |
-| Fix 2 | `render_topbar/3` exportado pero definido como `/2` | `layout.pl` | ✅ Resuelto |
-| Fix 3 | Error 403 — nginx sin proxy a Prolog | `nginx.conf` | ✅ Resuelto |
-| Fix 4 | `render_home_body` sin wrapper `page-body` | `home.pl` | ⏳ Pendiente |
-| Fix 5 | Predicados discontiguos en `home.pl` | `home.pl` | ✅ Resuelto |
-| Fix 6 | Navegación SPA con `data-link` | `app.js` | ✅ Verificado |
-| Fix 7 | `--sidebar-width` demasiado angosto (200px → 220-240px) | `tokens.css` | ⏳ Pendiente |
-| Fix 8 | Íconos como emojis en lugar de SVG monocromáticos | `home.pl`, `section.pl` | ⏳ Pendiente |
+| Fix 1 | Deprecated relative paths in `consult` | `server.pl` | ✅ Resolved |
+| Fix 2 | `render_topbar/3` exported but defined as `/2` | `layout.pl` | ✅ Resolved |
+| Fix 3 | 403 error — nginx not proxying to Prolog | `nginx.conf` | ✅ Resolved |
+| Fix 4 | `render_home_body` missing a `page-body` wrapper | `home.pl` | ⏳ Pending |
+| Fix 5 | Discontiguous predicates in `home.pl` | `home.pl` | ✅ Resolved |
+| Fix 6 | SPA navigation with `data-link` | `app.js` | ✅ Verified |
+| Fix 7 | `--sidebar-width` too narrow (200px → 220-240px) | `tokens.css` | ⏳ Pending |
+| Fix 8 | Emoji icons instead of monochrome SVG | `home.pl`, `section.pl` | ⏳ Pending |
 
 ---
 
 ## 🗺️ Roadmap
 
-- [ ] Fix 4 — wrapper `page-body` en `render_home_body`
-- [ ] Fix 7 — ajustar `--sidebar-width`
-- [ ] Fix 8 — reemplazar emojis por íconos SVG
-- [ ] Modo oscuro (variables CSS ya preparadas)
-- [ ] Buscador con highlight de sección en el mapa
-- [ ] Panel de administración para editar productos sin tocar código
+- [ ] Fix 4 — `page-body` wrapper in `render_home_body`
+- [ ] Fix 7 — adjust `--sidebar-width`
+- [ ] Fix 8 — replace emojis with SVG icons
+- [ ] Dark mode (CSS variables already in place)
+- [ ] Search with section highlighting on the map
+- [ ] Admin panel to edit products without touching code
 
 ---
 
