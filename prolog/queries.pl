@@ -2,7 +2,8 @@
                     query_buscar/2, query_precio_max/2,
                     query_mas_barato/2, query_mas_caro/2,
                     query_ofertas/1, query_info_producto/2,
-                    query_oficina/1]).
+                    query_oficina/1,
+                    query_productos_seccion_filtrado/4]).
 
 :- use_module('/app/prolog/db').
 :- use_module('/app/prolog/rules').
@@ -95,3 +96,13 @@ query_oficina(json([
               desc='Alta y consulta de puntos FrescaVida'])
     ]
 ])).
+
+query_productos_seccion_filtrado(SeccionId, Tipo, JsonProductos, InfoSeccion) :-
+    productos_de_seccion(SeccionId, Productos, Lugar),
+    include([producto(T,_,_,_,_,_)]>>(T = Tipo), Productos, Filtrados),
+    maplist(producto_a_json, Filtrados, JsonProductos),
+    seccion(SeccionId, Nombre, Desc, Icon, Color, Pasillo),
+    InfoSeccion = json([
+        id=SeccionId, nombre=Nombre, descripcion=Desc,
+        icon=Icon, color=Color, pasillo=Pasillo, lugar=Lugar
+    ]).

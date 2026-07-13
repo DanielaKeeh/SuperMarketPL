@@ -34,3 +34,59 @@
   .home-grid .section-card-secondary,
   .home-grid .section-card-small { grid-column: span 1; }
 }
+
+/* ── Store Map Container ─────────────────────────────────── */
+.store-map-container {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+.store-map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-zone rect {
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+
+.map-zone:hover rect {
+  opacity: 0.85;
+  filter: brightness(1.05);
+}
+
+/* ── Leyenda ─────────────────────────────────────────────── */
+.store-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--outline-variant);
+}
+
+.store-map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-body-md);
+  color: var(--on-surface-variant);
+}
+
+.store-map-legend-item span {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .store-map-container {
+    padding: var(--space-4);
+  }
+}

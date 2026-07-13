@@ -30,17 +30,18 @@
 :- http_handler(root(views/section), view_section, []).
 
 % ── Rutas API ────────────────────────────────────────────────
-:- http_handler(root(api/secciones), api_secciones,    []).
-:- http_handler(root(api/seccion),   api_seccion,      []).
-:- http_handler(root(api/buscar),    api_buscar,       []).
-:- http_handler(root(api/precio),    api_precio_max,   []).
-:- http_handler(root(api/barato),    api_mas_barato,   []).
-:- http_handler(root(api/caro),      api_mas_caro,     []).
-:- http_handler(root(api/producto),  api_info_producto,[]).
-:- http_handler(root(api/ofertas),   api_ofertas,      []).
-:- http_handler(root(api/oficina),   api_oficina,      []).
+:- http_handler(root(api/secciones),      api_secciones,           []).
+:- http_handler(root(api/seccion),        api_seccion,             []).
+:- http_handler(root(api/seccion/filtro), api_seccion_filtro,      []).
+:- http_handler(root(api/buscar),         api_buscar,              []).
+:- http_handler(root(api/precio),         api_precio_max,          []).
+:- http_handler(root(api/barato),         api_mas_barato,          []).
+:- http_handler(root(api/caro),           api_mas_caro,            []).
+:- http_handler(root(api/producto),       api_info_producto,       []).
+:- http_handler(root(api/ofertas),        api_ofertas,             []).
+:- http_handler(root(api/oficina),        api_oficina,             []).
 
-% ── Estáticos (solo css y js, nginx maneja el resto) ─────────
+% ── Estáticos ────────────────────────────────────────────────
 :- http_handler(root(css), serve_static, [prefix]).
 :- http_handler(root(js),  serve_static, [prefix]).
 
@@ -53,11 +54,9 @@ main :-
     http_server(http_dispatch, [port(8080)]),
     thread_get_message(_).
 
-% ── Estáticos ────────────────────────────────────────────────
 serve_static(Request) :-
     http_reply_from_files('/app/public', [], Request).
 
-% ── CORS ─────────────────────────────────────────────────────
 cors_enable :-
     set_setting(http:cors, [*]).
 
@@ -113,6 +112,14 @@ api_seccion(Request) :-
     (   query_productos_seccion(Id, Productos, Info)
     ->  reply_json(json([ok=true, info=Info, productos=Productos]))
     ;   reply_json(json([ok=false, error='Sección no encontrada']))
+    ).
+
+api_seccion_filtro(Request) :-
+    cors_enable,
+    http_parameters(Request, [id(Id, []), tipo(Tipo, [])]),
+    (   query_productos_seccion_filtrado(Id, Tipo, Productos, Info)
+    ->  reply_json(json([ok=true, info=Info, productos=Productos]))
+    ;   reply_json(json([ok=false, error='Sin resultados']))
     ).
 
 api_buscar(Request) :-
