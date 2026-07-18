@@ -77,6 +77,15 @@ render_office_horario(json(Info), HTML) :-
         '</div>'
     ], HTML).
 
+render_office_services_header(HTML) :-
+    atomic_list_concat([
+        '<div class="office-services-header">',
+        '<h2 class="office-services-title">Administrative Services</h2>',
+        '<p class="office-services-desc">',
+        'Manage your corporate relationships and retail operations.',
+        '</p>',
+        '</div>'
+    ], HTML).
 
 render_office_services(json(Info), HTML) :-
     member(servicios=Servicios, Info),
