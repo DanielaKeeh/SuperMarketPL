@@ -134,15 +134,7 @@ render_producto_tag(Tipo, HTML) :-
         '<span class="tag ', Class, '">', Tipo, '</span>'
     ], HTML).
 
-tag_class('Leche',        'tag-blue').
-tag_class('Yogurt',       'tag-blue').
-tag_class('Queso',        'tag-blue').
-tag_class('Crema',        'tag-blue').
-tag_class('Mantequilla',  'tag-blue').
-tag_class('Fruta',        'tag-green').
-tag_class('Verdura',      'tag-green').
-tag_class('Carne',        'tag-amber').
-tag_class('CarnesFrias',  'tag-amber').
+
 tag_class('Preparado',    'tag-amber').
 tag_class('Refresco',     'tag-purple').
 tag_class('Agua',         'tag-purple').
