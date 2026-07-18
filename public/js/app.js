@@ -2,7 +2,7 @@
    APP.JS — Router SPA + navegación + búsqueda live
 ============================================================ */
 
-
+const app = document.getElementById('app');
 
 async function navigate(path, pushState = true) {
   try {
